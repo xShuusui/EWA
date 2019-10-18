@@ -1,0 +1,2 @@
+# Ignore database files
+docker/database/data/

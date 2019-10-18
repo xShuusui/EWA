@@ -1,0 +1,65 @@
+version: "3.6"
+
+services:
+
+#========================================================================================
+# Database
+#========================================================================================
+
+  database:
+    
+    container_name: ewa-database
+
+    image: mariadb:latest
+
+#    restart: always
+
+    volumes:
+      - ./database/data/:/var/lib/mysql/
+
+    environment:
+      MYSQL_ROOT_PASSWORD: toor
+      MYSQL_DATABASE: shop
+      MYSQL_USER: dbuser
+      MYSQL_PASSWORD: dbpassword
+
+    ports:
+      - 3306:3306
+
+    networks:
+      
+      ewa-network:
+
+#========================================================================================
+# Webserver
+#========================================================================================
+
+  webserver:
+
+    container_name: ewa-webserver
+
+    build: ./webserver/
+
+#    restart: always
+
+    volumes:
+      - ./webserver/src/:/var/www/html/
+
+    ports:
+      - 80:80
+
+    networks:
+
+      ewa-network:    
+
+#========================================================================================
+# Network configuration
+#========================================================================================
+
+networks:
+  
+  ewa-network:
+    
+    name: ewa-network
+
+    driver: bridge
