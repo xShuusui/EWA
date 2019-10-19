@@ -15,6 +15,9 @@ abstract class Page {
 
     /** Reference to our MySQL database. */
     protected $connection = null;
+
+    /** Default page title. */
+    protected $title = "Shop | ";
     
     /**
      * Creates a database connection.
@@ -29,64 +32,76 @@ abstract class Page {
 	    $database = "shop";
 
         // Creates a database connection.
-        $this->connection = new mysqi(
-            $servername, 
-            $username, 
+        $this->connection = new mysqli(
+            $servername,
+            $username,
             $password, 
             $database
         );
 
-        // Check if the connection failed.
-        if ($this->$connection->connect_errno) {
-            die("Connection to the MySQL database failed: " . $this->$connection->connect_errno);
+        // Check if the database connection failed.
+        if ($this->connection->connect_errno) {
+            die("Connection to the MySQL database failed: " . $this->connection->connect_errno);
         }
     }
     
     /**
-     * Close the database connection.
+     * Closes the database connection.
      *
      * @return none
      */
     protected function __destruct() {
 
-        // Close the database connection.
-        $this->$connection->close();
+        $this->connection->close();
     }
     
     /**
      * Generates the header section of the page.
-     * i.e. starting from the content type up to the body-tag.
-     * Takes care that all strings passed from outside
-     * are converted to safe HTML by htmlspecialchars.
      *
-     * @param $title is the text to be used as title of the page
+     * @param $title title of the page.
      *
      * @return none
      */
     protected function generatePageHeader($title = "") {
 
-        $title = htmlspecialchars($title);
+        // Check title for HTML code.
+        $title = htmlspecialchars($this->title . $title);
         header("Content-type: text/html; charset=UTF-8");
-        
-        // to do: output common beginning of HTML code 
-        // including the individual headline
+
+echo <<< HTML
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <title>$title</title>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Default CSS files. -->
+    <link rel="stylesheet" type="text/css" href="styles/main.css" />
+
+    <!-- Default JS imports.-->
+    <script src="scripts/main.js"></script>
+</head>
+<body>\n
+HTML;
     }
 
     /**
-     * Outputs the end of the HTML-file i.e. /body etc.
-     *
+     * Generates the footer section of the page.
+     * 
      * @return none
      */
     protected function generatePageFooter() {
 
-        // to do: output common end of HTML code
+echo <<< HTML
+\n</body>
+</html>
+HTML;
     }
 
     /**
-     * Processes the data that comes via GET or POST i.e. CGI.
-     * If every page is supposed to do something with submitted
-     * data do it here. E.g. checking the settings of PHP that
-     * influence passing the parameters (e.g. magic_quotes).
+     * Processes the data that comes via GET or POST.
      *
      * @return none
      */
