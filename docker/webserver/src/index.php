@@ -6,11 +6,7 @@ require_once './Page.php';
  * This is a template for top level classes, which represent 
  * a complete web page and which are called directly by the user.
  * Usually there will only be a single instance of such a class. 
- * The name of the template is supposed
- * to be replaced by the name of the specific HTML page e.g. baker.
- * The order of methods might correspond to the order of thinking 
- * during implementation.
- 
+ *
  * @author   Julian Segeth
  * @author   Bican Misto 
  */
