@@ -2,7 +2,7 @@ CREATE TABLE `menu` (
 	`pizzaID` INT NOT NULL AUTO_INCREMENT,
 	`pizzaName` VARCHAR(40) NOT NULL,
 	`imagePath` VARCHAR(40) NOT NULL,
-	`pizzaPrice` FLOAT(1,2) NOT NULL,
+	`pizzaPrice` FLOAT NOT NULL,
 	PRIMARY KEY (`pizzaID`)
 );
 
