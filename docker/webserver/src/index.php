@@ -60,7 +60,7 @@ echo <<< HTML
                 <a href="index.php">Startseite</a>
             </li>
             <li> 
-                <a href="PageTemplate.php">PageTemplate</a>
+                <a href="Bestellung.php">Bestellseite</a>
             </li>
             <li> 
                 <a href="PageTemplate.php">PageTemplate</a>
