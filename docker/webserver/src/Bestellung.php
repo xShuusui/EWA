@@ -56,9 +56,37 @@ echo <<< HTML
         <h2>Speisekarte</h2>
         <div>
             <img src="images/pizza.jpg" alt="Pizza" width="250" height="250" />
-            <p data-price-salami="3.99">Pizza Salamai: 3.99 €</p>
+            <p data-price-salami="4.50">Pizza Salamai: 4.50 €</p>
         </div>
-        
+        <div>
+            <img src="images/pizza.jpg" alt="Pizza2" width="250" height="250" />
+            <p data-price-margherita="4.00">Pizza Margherita: 4.00 €</p>
+        </div>
+        <div>
+            <img src="images/pizza.jpg" alt="Pizza3" width="250" height="250" />
+            <p data-price-hawaii="5.50">Pizza Hawaii: 5.50 €</p>
+        </div>
+    </section>
+    <section>
+        <h2>Warenkorb</h2>
+        <div>
+            <form action="https://echo.fbi.h-da.de" method="get">
+                <select name="cart" size="5">
+                    <option value="4.50">Pizza Salami</option>
+                    <option value="4.00">Pizza Margherita</option>
+                    <option value="5.50">Pizza Hawaii</option>
+                </select>
+                <p>14.00 €</p>
+            
+                Adresse: 
+                <br>
+                <input type="text" name="address" placeholder="Bitte Adresse eingeben">
+                <br>
+                <input type="submit" name="submitOrder" value="Bestellen">
+                <input type="button" name="deleteSelected" value="Auswahl entfernen">
+                <input type="reset" name="deleteAll" value="Alle entfernen">
+            </form>
+        </div>
     </section>
 HTML;
 
