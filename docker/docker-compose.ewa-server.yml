@@ -10,7 +10,7 @@ services:
     
     container_name: ewa-database
 
-    image: mariadb:latest
+    build: ./database/
 
 #    restart: always
 
