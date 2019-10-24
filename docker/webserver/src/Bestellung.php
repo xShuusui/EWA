@@ -72,19 +72,18 @@ class Bestellung extends Page {
 echo <<< HTML
     <h1>Bestellungen</h1>
     <section>
-        <h2>Speisekarte</h2>
+        <h2>Speisekarte</h2> \n
+HTML;        
+        for($i = 0; $i < count($this->menu); $i++){
+            $price = number_format((float) $this->menu[$i]['pizzaPrice'], 2, ",", ".");
+echo <<< HTML
         <div>
-            <img src="./images/pizza.jpg" alt="Pizza" width="250" height="250" />
-            <p data-price-salami="4.50">Pizza Salamai: 4.50 €</p>
-        </div>
-        <div>
-            <img src="./images/pizza.jpg" alt="Pizza2" width="250" height="250" />
-            <p data-price-margherita="4.00">Pizza Margherita: 4.00 €</p>
-        </div>
-        <div>
-            <img src="./images/pizza.jpg" alt="Pizza3" width="250" height="250" />
-            <p data-price-hawaii="5.50">Pizza Hawaii: 5.50 €</p>
-        </div>
+            <img src= "{$this->menu[$i]['imagePath']}" alt="{$this->menu[$i]['pizzaName']}" width="250" height="250" />
+            <p data-price-salami="$price"> Pizza Salamai: $price €</p>
+        </div> \n
+HTML;
+        }
+echo <<< HTML
     </section>
     <section>
         <h2>Warenkorb</h2>
