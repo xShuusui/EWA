@@ -9,8 +9,8 @@ require_once './Page.php';
  * @author   Bican Misto 
  */
 class Bestellung extends Page {
-    // to do: declare reference variables for members 
-    // representing substructures/blocks
+
+    protected $menu = array();
     
     /**
      * Creates a database connection.
@@ -40,7 +40,26 @@ class Bestellung extends Page {
      * @return none
      */
     protected function getViewData() {
-        // to do: fetch data for this view from the database
+        
+        // Check if the database connection failed.
+        if ($this->connection->connect_errno) {
+            die("Connection to the MySQL database failed: " . $this->connection->connect_errno);
+        }
+
+        $this->connection->query("SET NAMES utf8");
+
+        $sql = "SELECT * FROM menu;";
+
+        $resultSet = $this->connection->query($sql);
+
+        if ($resultSet->num_rows > 0) {
+            
+            while ($row = $resultSet->fetch_assoc()) {
+                $this->menu[count($this->menu)] = $row;
+            }
+        } else {
+            echo mysqli_error($this->connection);
+        }
     }
 
     /**
@@ -71,7 +90,7 @@ echo <<< HTML
         <h2>Warenkorb</h2>
         <div>
             <form action="https://echo.fbi.h-da.de" method="get">
-                <select name="cart" size="5" multiple >
+                <select name="cart" size="5" >
                     <option value="4.50">Pizza Salami</option>
                     <option value="4.00">Pizza Margherita</option>
                     <option value="5.50">Pizza Hawaii</option>

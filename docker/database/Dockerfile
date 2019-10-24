@@ -1,7 +1,7 @@
 # Pull image from Docker Hub.
 FROM mariadb:latest
 
-# Update and update the system | Install the locales package.
+# Update and upgrade the system | Install the locales package.
 RUN apt-get update && apt-get upgrade -y \
  && apt-get install locales
 
