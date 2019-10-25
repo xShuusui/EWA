@@ -63,10 +63,13 @@ echo <<< HTML
                 <a href="Bestellung.php">Bestellseite</a>
             </li>
             <li> 
-                <a href="PageTemplate.php">PageTemplate</a>
+                <a href="Baecker.php">Bäcker</a>
             </li>
             <li> 
-                <a href="PageTemplate.php">PageTemplate</a>
+                <a href="Fahrer.php">Fahrer</a>
+            </li>
+            <li>
+                <a href="Kunde.php">Kunde</a>
             </li>
         </ul>
     </nav>
