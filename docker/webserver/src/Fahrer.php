@@ -1,18 +1,14 @@
 <?php
-// TODO: Copy and change name 'Fahrer' throughout this file.
+
 require_once './Page.php';
 
 /**
- * This is a template for top level classes, which represent 
- * a complete web page and which are called directly by the user.
- * Usually there will only be a single instance of such a class. 
+ * TODO: Beschreibung Fahrer.php
  * 
  * @author   Julian Segeth
- * @author   Bican Misto 
+ * @author   Bican Gül 
  */
 class Fahrer extends Page{
-    // to do: declare reference variables for members 
-    // representing substructures/blocks
 
     /**
      * Creates a database connection.
@@ -22,7 +18,6 @@ class Fahrer extends Page{
     protected function __construct(){
 
         parent::__construct();
-        // to do: instantiate members representing substructures/blocks
     }
 
     /**
@@ -64,7 +59,7 @@ echo <<< HTML
                 </select>
                 <br>
                 <br>
-                <input type="submit" name="submitDriverStatus" value="SubmitEchoAbfragen">
+                <input type="submit" name="submitDriverStatus" value="SubmitEchoAbfragen" \>
             </form>
         </div>
     </section>
@@ -83,7 +78,7 @@ HTML;
     protected function generateView(){
 
         $this->getViewData();
-        $this->generatePageHeader("Template");
+        $this->generatePageHeader("Fahrer");
         $this->generatePageBody();
         $this->generatePageFooter();
     }

@@ -6,10 +6,11 @@ require_once './Page.php';
  * TODO: Beschreibung Bestellung.php
  * 
  * @author   Julian Segeth
- * @author   Bican Misto 
+ * @author   Bican Gül 
  */
 class Bestellung extends Page {
 
+    /** Contains all pizzas. */
     protected $menu = array();
     
     /**
@@ -20,7 +21,6 @@ class Bestellung extends Page {
     protected function __construct() {
 
         parent::__construct();
-        // to do: instantiate members representing substructures/blocks
     }
     
     /**
@@ -33,6 +33,9 @@ class Bestellung extends Page {
         parent::__destruct();
     }
 
+    /**
+     * Add additional CSS files and scripts to the head.
+     */
     protected function addAdditionalHead() {
 echo <<< HTML
     <script src="scripts/cart.js"></script>
@@ -104,11 +107,11 @@ echo <<< HTML
             
                 Adresse: 
                 <br>
-                <input type="text" name="address" placeholder="Bitte Adresse eingeben">
+                <input type="text" name="address" placeholder="Bitte Adresse eingeben" \>
                 <br>
-                <input type="submit" name="submitOrder" value="Bestellen">
-                <input type="button" name="deleteSelected" value="Auswahl entfernen">
-                <input type="reset" name="deleteAll" value="Alle entfernen">
+                <input type="submit" name="submitOrder" value="Bestellen" \>
+                <input type="button" name="deleteSelected" value="Auswahl entfernen" \>
+                <input type="reset" name="deleteAll" value="Alle entfernen" \>
             </form>
         </div>
     </section>

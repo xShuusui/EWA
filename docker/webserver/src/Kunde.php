@@ -1,18 +1,14 @@
 <?php
-// TODO: Copy and change name 'Kunde' throughout this file.
+
 require_once './Page.php';
 
 /**
- * This is a template for top level classes, which represent 
- * a complete web page and which are called directly by the user.
- * Usually there will only be a single instance of such a class. 
+ * TODO: Beschreibung Kunde.php
  * 
  * @author   Julian Segeth
- * @author   Bican Misto 
+ * @author   Bican Gül 
  */
 class Kunde extends Page {
-    // to do: declare reference variables for members 
-    // representing substructures/blocks
     
     /**
      * Creates a database connection.
@@ -22,7 +18,6 @@ class Kunde extends Page {
     protected function __construct() {
 
         parent::__construct();
-        // to do: instantiate members representing substructures/blocks
     }
     
     /**
@@ -66,7 +61,7 @@ echo <<< HTML
                 </select>
                 <br>
                 <br>
-                <input type="submit" name="submitButton" value="SubmitToCheckEcho">
+                <input type="submit" name="submitButton" value="SubmitToCheckEcho" \>
             </form>
         </div>
     </section>
@@ -85,7 +80,7 @@ HTML;
     protected function generateView() {
 
         $this->getViewData();
-        $this->generatePageHeader("Template");
+        $this->generatePageHeader("Kunde");
         $this->generatePageBody();
         $this->generatePageFooter();
     }

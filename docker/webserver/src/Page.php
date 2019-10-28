@@ -9,7 +9,7 @@
  * and for creating the generic parts of a HTML-page.
  *
  * @author   Julian Segeth
- * @author   Bican Misto
+ * @author   Bican Gül
  */ 
 abstract class Page {
 
@@ -89,8 +89,8 @@ echo <<< HTML
     <script src="scripts/main.js"></script>\n
 HTML;
 
-    $this->addAdditionalHead();
-    
+        $this->addAdditionalHead();
+
 echo <<< HTML
 \n</head>
 <body>\n
