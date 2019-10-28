@@ -54,6 +54,11 @@ abstract class Page {
 
         $this->connection->close();
     }
+
+    /**
+     * This function can be overwritten to add additional CSS files or scripts.
+     */
+    protected function addAdditionalHead() { }
     
     /**
      * Generates the header section of the page.
@@ -81,8 +86,13 @@ echo <<< HTML
     <link rel="stylesheet" type="text/css" href="styles/main.css" />
 
     <!-- Default JS imports.-->
-    <script src="scripts/main.js"></script>
-</head>
+    <script src="scripts/main.js"></script>\n
+HTML;
+
+    $this->addAdditionalHead();
+    
+echo <<< HTML
+\n</head>
 <body>\n
 HTML;
     }

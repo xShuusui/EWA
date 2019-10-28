@@ -33,6 +33,12 @@ class Bestellung extends Page {
         parent::__destruct();
     }
 
+    protected function addAdditionalHead() {
+echo <<< HTML
+    <script src="scripts/cart.js"></script>
+HTML;
+    }
+
     /**
      * Fetch all data that is necessary for later output.
      * Data is stored in an easily accessible way e.g. as associative array.
