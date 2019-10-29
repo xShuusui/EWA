@@ -84,11 +84,12 @@ echo <<< HTML
         <h2>Speisekarte</h2> \n
 HTML;        
         for($i = 0; $i < count($this->menu); $i++){
-            $price = number_format((float) $this->menu[$i]['pizzaPrice'], 2, ",", ".");
+            $price = number_format((float) $this->menu[$i]['pizzaPrice'], 2, ".", ",");
+            $pizzaName = $this->menu[$i]['pizzaName'];
 echo <<< HTML
         <div>
-            <img src= "{$this->menu[$i]['imagePath']}" alt="{$this->menu[$i]['pizzaName']}" width="250" height="250" />
-            <p data-price-salami="$price"> Pizza Salamai: $price €</p>
+            <img id="$i" onclick="addToCart('$pizzaName','$price')" src= "{$this->menu[$i]['imagePath']}" alt="$pizzaName" width="250" height="250" />
+            <p data-price-{$pizzaName}="$price"> Pizza Salamai: $price €</p>
         </div> \n
 HTML;
         }
