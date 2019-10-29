@@ -88,8 +88,8 @@ HTML;
             $pizzaName = $this->menu[$i]['pizzaName'];
 echo <<< HTML
         <div>
-            <img id="$i" onclick="addToCart('$pizzaName','$price')" src= "{$this->menu[$i]['imagePath']}" alt="$pizzaName" width="250" height="250" />
-            <p data-price-{$pizzaName}="$price"> Pizza Salamai: $price €</p>
+            <img id="$i" onclick="addToCart('$pizzaName', $price)" src="{$this->menu[$i]['imagePath']}" alt="$pizzaName" width="250" height="250" />
+            <p data-price-{$pizzaName}="$price"> Pizza $pizzaName: $price €</p>
         </div> \n
 HTML;
         }
