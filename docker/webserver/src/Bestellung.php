@@ -98,21 +98,8 @@ echo <<< HTML
     <section>
         <h2>Warenkorb</h2>
         <div>
-            <form action="https://echo.fbi.h-da.de" method="get">
-                <select name="cart" size="5" >
-                    <option value="4.50">Pizza Salami</option>
-                    <option value="4.00">Pizza Margherita</option>
-                    <option value="5.50">Pizza Hawaii</option>
-                </select>
-                <p>14.00 €</p>
-            
-                Adresse: 
-                <br>
-                <input type="text" name="address" placeholder="Bitte Adresse eingeben" \>
-                <br>
-                <input type="submit" name="submitOrder" value="Bestellen" \>
-                <input type="button" name="deleteSelected" value="Auswahl entfernen" \>
-                <input type="reset" name="deleteAll" value="Alle entfernen" \>
+            <form id="cart" action="https://echo.fbi.h-da.de" method="get">
+                
             </form>
         </div>
     </section>
