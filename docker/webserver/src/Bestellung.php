@@ -98,8 +98,26 @@ echo <<< HTML
     <section>
         <h2>Warenkorb</h2>
         <div>
-            <form id="cart" action="https://echo.fbi.h-da.de" method="get">
-                
+            <form action="https://echo.fbi.h-da.de" method="get">
+                <select id="cart" name="cart[]" size="5">
+
+                </select>
+
+                <p id="totalPrice"></p>
+
+                <div>
+                <p> Ihr Name:</p>
+                <input type="text" name="fullName" required>
+                <br>
+                <p> Ihre Adresse:</p>
+                <input type="text" name="address" required>
+                </div>
+
+                <div>
+                <input type="submit" onclick="selectAllOptions()" value="Bestellung aufgeben">
+                <input type="button" value="Warenkorb leeren">
+                </div>
+
             </form>
         </div>
     </section>

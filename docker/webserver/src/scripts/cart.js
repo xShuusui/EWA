@@ -31,26 +31,19 @@ function createCart() {
     "use strict"
 
     // Get parent node.
-    let formNode = document.getElementById("cart");
+    let selectNode = document.getElementById("cart");
 
     // Remove all child nodes.
-    while (formNode.firstChild) {
-        formNode.removeChild(formNode.firstChild);
+    while (selectNode.firstChild) {
+        selectNode.removeChild(selectNode.firstChild);
     }
-
-    // Create <select> node and set his attribute nodes.
-    let selectNode = document.createElement("select");
-    selectNode.setAttribute("name", "cart[]");
-    selectNode.setAttribute("size", "5");
-
-    // Append <select> node to his parent node.
-    formNode.appendChild(selectNode);
 
     // Create cart items.
     cart.forEach(pizza => {
 
         // Create <option> node and set his attribute nodes.
         let optionNode = document.createElement("option");
+        optionNode.setAttribute("name", pizza.name);
         optionNode.setAttribute("value", pizza.price);
 
         // Create and append text node for <option> node.
@@ -62,15 +55,27 @@ function createCart() {
 
     });
 
+    //Get paragraph-element
+    var priceNode = document.getElementById("totalPrice");
+
+    //Remove all child nodes.
+    while(priceNode.firstChild){
+        priceNode.removeChild(priceNode.firstChild);
+    }
+
     // Create <p> node and set his attribute nodes.
-    let priceNode = document.createElement("p");
     priceNode.setAttribute("data-price-total", cartTotal);
 
     // Create and append text node for <p> node.
     let textNode = document.createTextNode("Gesamter Preis: " + cartTotal + " €");
     priceNode.appendChild(textNode);
+}
 
-    // Append <p> node to his parent node.
-    formNode.appendChild(priceNode);
+function selectAllOptions(){
+    let selectNode = document.getElementById("cart");
+
+    for(let i=0; i < selectNode.options.length; i++){
+        selectNode.options[i].selected = true;
+    }
 
 }
