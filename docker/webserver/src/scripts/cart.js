@@ -43,8 +43,8 @@ function createCart() {
 
         // Create <option> node and set his attribute nodes.
         let optionNode = document.createElement("option");
-        optionNode.setAttribute("name", pizza.name);
-        optionNode.setAttribute("value", pizza.price);
+        optionNode.setAttribute("value", pizza.name);
+        optionNode.setAttribute("selected", true);
 
         // Create and append text node for <option> node.
         let textNode = document.createTextNode("Pizza " + pizza.name);
@@ -52,10 +52,9 @@ function createCart() {
       
         // Append <option> node to his parent node.
         selectNode.appendChild(optionNode);
-
     });
 
-    //Get paragraph-element
+    // Get paragraph-element
     var priceNode = document.getElementById("totalPrice");
 
     //Remove all child nodes.
@@ -69,13 +68,9 @@ function createCart() {
     // Create and append text node for <p> node.
     let textNode = document.createTextNode("Gesamter Preis: " + cartTotal + " €");
     priceNode.appendChild(textNode);
-}
 
-function selectAllOptions(){
-    let selectNode = document.getElementById("cart");
-
-    for(let i=0; i < selectNode.options.length; i++){
-        selectNode.options[i].selected = true;
-    }
-
+    // Get <input type="hidden"> and set his attribute nodes.
+    let hiddenPriceNode = document.getElementById("totalPriceHidden");
+    hiddenPriceNode.setAttribute("name", "cartTotal");
+    hiddenPriceNode.setAttribute("value", cartTotal);
 }

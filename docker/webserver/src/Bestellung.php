@@ -99,25 +99,29 @@ echo <<< HTML
         <h2>Warenkorb</h2>
         <div>
             <form action="https://echo.fbi.h-da.de" method="get">
-                <select id="cart" name="cart[]" size="5">
 
+                <!-- All cart items. -->
+                <select id="cart" name="cart[]" size="5" multiple>
                 </select>
 
+                <!-- Total cart price. -->
                 <p id="totalPrice"></p>
+                <input id="totalPriceHidden" type="hidden" />
 
+                <!-- Text inputs. -->
                 <div>
-                <p> Ihr Name:</p>
-                <input type="text" name="fullName" required>
-                <br>
-                <p> Ihre Adresse:</p>
-                <input type="text" name="address" required>
+                    <p>Ihr Name:</p>
+                    <input type="text" name="fullName" required />
+                    <br>
+                    <p>Ihre Adresse:</p>
+                    <input type="text" name="address" required />
                 </div>
 
+                <!-- Button inputs. -->
                 <div>
-                <input type="submit" onclick="selectAllOptions()" value="Bestellung aufgeben">
-                <input type="button" value="Warenkorb leeren">
+                    <input type="submit" value="Bestellung aufgeben" />
+                    <input type="button" value="Warenkorb leeren" />
                 </div>
-
             </form>
         </div>
     </section>
