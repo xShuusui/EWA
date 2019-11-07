@@ -44,6 +44,7 @@ function createCart() {
         // Create <option> node and set his attribute nodes.
         let optionNode = document.createElement("option");
         optionNode.setAttribute("value", pizza.name);
+        optionNode.id = pizza.id;
 
         // Create and append text node for <option> node.
         let textNode = document.createTextNode("Pizza " + pizza.name);
@@ -78,5 +79,17 @@ function selectAllOptions(){
 }
 
 function deleteSelectedOptions(){
-    
+    let selectNode = document.getElementById("cart");
+
+    for (let i=0; i < selectNode.options.length; i++) {
+
+        let optionNode = selectNode.options[i];
+        if (optionNode.selected == true) {
+            
+            cartTotal -= cart[optionNode.id].price;
+            delete cart[optionNode.id];
+        }
+    }
+
+    createCart();
 }
