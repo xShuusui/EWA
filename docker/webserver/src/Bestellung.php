@@ -117,7 +117,7 @@ echo <<< HTML
                 <div>
                     <input type="submit" onclick="selectAllOptions()" value="Bestellung aufgeben" />
                     <input type="button" onclick="deleteSelectedOptions()" value="Auswahl entfernen" />
-                    <input type="button" onclick="" value="Warenkorb leeren" />
+                    <input type="button" onclick="deleteAllOptions()" value="Warenkorb leeren" />
                 </div>
             </form>
         </div>

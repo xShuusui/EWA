@@ -70,26 +70,35 @@ function createCart() {
     priceNode.appendChild(textNode);
 }
 
-function selectAllOptions(){
+function selectAllOptions() {
     let selectNode = document.getElementById("cart");
 
-    for(let i=0; i < selectNode.options.length; i++){
+    for (let i=0; i < selectNode.options.length; i++) {
         selectNode.options[i].selected = true;
     }
 }
 
-function deleteSelectedOptions(){
+function deleteSelectedOptions() {
     let selectNode = document.getElementById("cart");
 
     for (let i=0; i < selectNode.options.length; i++) {
 
         let optionNode = selectNode.options[i];
         if (optionNode.selected == true) {
-            
+
             cartTotal -= cart[optionNode.id].price;
             delete cart[optionNode.id];
         }
     }
+
+    createCart();
+}
+
+function deleteAllOptions() {
+
+    cart = [];
+    cartTotal = 0;
+    pizzaID = 0;
 
     createCart();
 }
