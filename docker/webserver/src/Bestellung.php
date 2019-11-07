@@ -98,10 +98,10 @@ echo <<< HTML
     <section>
         <h2>Warenkorb</h2>
         <div>
-            <form action="https://echo.fbi.h-da.de" method="get">
+            <form action="Bestellung.php" method="POST">
 
                 <!-- All cart items. -->
-                <select id="cart" name="cart[]" size="5" multiple>
+                <select id="cart" size="5" multiple>
                 </select>
 
                 <!-- Total cart price. -->
@@ -123,7 +123,6 @@ echo <<< HTML
         </div>
     </section>
 HTML;
-
     }
     
     /**
@@ -153,6 +152,15 @@ HTML;
     protected function processReceivedData() {
 
         parent::processReceivedData();
+
+        // FIXME: Check value of address and cart and process data.
+
+        if (isset($_POST["address"]) && isset($_POST["cart"])) {
+
+            $address = real_escape_string($_POST["address"]);
+            $cart = real_escape_string($_POST["cart"]);
+
+        }
     }
 
     /**

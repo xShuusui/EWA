@@ -43,6 +43,7 @@ function createCart() {
 
         // Create <option> node and set his attribute nodes.
         let optionNode = document.createElement("option");
+        optionNode.setAttribute("name", "cart[]");
         optionNode.setAttribute("value", pizza.name);
         optionNode.id = pizza.id;
 
