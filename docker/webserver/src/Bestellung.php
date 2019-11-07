@@ -106,21 +106,18 @@ echo <<< HTML
 
                 <!-- Total cart price. -->
                 <p id="totalPrice"></p>
-                <input id="totalPriceHidden" type="hidden" />
 
                 <!-- Text inputs. -->
                 <div>
-                    <p>Ihr Name:</p>
-                    <input type="text" name="fullName" required />
-                    <br>
                     <p>Ihre Adresse:</p>
                     <input type="text" name="address" required />
                 </div>
 
                 <!-- Button inputs. -->
                 <div>
-                    <input type="submit" value="Bestellung aufgeben" />
-                    <input type="button" value="Warenkorb leeren" />
+                    <input type="submit" onclick="selectAllOptions()" value="Bestellung aufgeben" />
+                    <input type="button" onclick="deleteSelectedOptions()" value="Auswahl entfernen" />
+                    <input type="button" onclick="" value="Warenkorb leeren" />
                 </div>
             </form>
         </div>
