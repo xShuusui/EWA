@@ -50,22 +50,18 @@ HTML;
      */
     protected function getViewData() {
         
-        // Check if the database connection failed.
-        if ($this->connection->connect_errno) {
-            die("Connection to the MySQL database failed: " . $this->connection->connect_errno);
-        }
-
+        $this->checkDatabaseConnection();
         $this->connection->query("SET NAMES utf8");
 
         $sql = "SELECT * FROM menu;";
 
-        $resultSet = $this->connection->query($sql);
-
-        if ($resultSet->num_rows > 0) {
+        $recordSet = $this->connection->query($sql);
+        if ($recordSet->num_rows > 0) {
             
-            while ($row = $resultSet->fetch_assoc()) {
+            while ($row = $recordSet->fetch_assoc()) {
                 $this->menu[count($this->menu)] = $row;
             }
+            $recordSet->free();
         } else {
             echo mysqli_error($this->connection);
         }
@@ -81,7 +77,7 @@ HTML;
 echo <<< HTML
     <h1>Bestellungen</h1>
     <section>
-        <h2>Speisekarte</h2> \n
+        <h2>Speisekarte</h2>\n
 HTML;        
         for($i = 0; $i < count($this->menu); $i++){
             $price = number_format((float) $this->menu[$i]['pizzaPrice'], 2, ".", ",");
@@ -90,9 +86,10 @@ echo <<< HTML
         <div>
             <img id="$i" onclick="addToCart('$pizzaName', $price)" src="{$this->menu[$i]['imagePath']}" alt="$pizzaName" width="250" height="250" />
             <p data-price-{$pizzaName}="$price"> Pizza $pizzaName: $price €</p>
-        </div> \n
+        </div>\n
 HTML;
         }
+        // TODO: Check if cart is empty before submit.
 echo <<< HTML
     </section>
     <section>
@@ -101,7 +98,7 @@ echo <<< HTML
             <form action="Bestellung.php" method="POST">
 
                 <!-- All cart items. -->
-                <select id="cart" size="5" multiple>
+                <select id="cart" name="cart[]" size="5" multiple>
                 </select>
 
                 <!-- Total cart price. -->
@@ -153,14 +150,21 @@ HTML;
 
         parent::processReceivedData();
 
-        // FIXME: Check value of address and cart and process data.
-
         if (isset($_POST["address"]) && isset($_POST["cart"])) {
 
-            $address = real_escape_string($_POST["address"]);
-            $cart = real_escape_string($_POST["cart"]);
+            $address = $this->connection->real_escape_string($_POST["address"]);
+            //$cart = $this->connection->real_escape_string($_POST["cart"]); // TODO: real_escape_string must be on string not on array.
 
+            //var_dump($address);
+            //var_dump($cart);
+
+            $this->checkDatabaseConnection();
+
+            $sql = "INSERT INTO `order` SET address=\"$address\"";
+            //var_dump($sql);
+            $this->connection->query($sql);
         }
+
     }
 
     /**

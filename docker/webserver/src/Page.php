@@ -39,10 +39,7 @@ abstract class Page {
             $database
         );
 
-        // Check if the database connection failed.
-        if ($this->connection->connect_errno) {
-            die("Connection to the MySQL database failed: " . $this->connection->connect_errno);
-        }
+        $this->checkDatabaseConnection();
     }
     
     /**
@@ -53,6 +50,16 @@ abstract class Page {
     protected function __destruct() {
 
         $this->connection->close();
+    }
+
+    /**
+     * Check if a connection to the database exist.
+     */
+    protected function checkDatabaseConnection() {
+
+        if ($this->connection->connect_errno) {
+            die("Connection to the MySQL database failed: " . $this->connection->connect_errno);
+        }
     }
 
     /**
