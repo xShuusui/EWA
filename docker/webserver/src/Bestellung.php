@@ -155,14 +155,32 @@ HTML;
             $address = $this->connection->real_escape_string($_POST["address"]);
             //$cart = $this->connection->real_escape_string($_POST["cart"]); // TODO: real_escape_string must be on string not on array.
 
+            $cart = $_POST["cart"];
+
             //var_dump($address);
             //var_dump($cart);
 
             $this->checkDatabaseConnection();
 
-            $sql = "INSERT INTO `order` SET address=\"$address\"";
+            $sqlAddress = "INSERT INTO `order` SET address=\"$address\"";
             //var_dump($sql);
-            $this->connection->query($sql);
+            $this->connection->query($sqlAddress);
+
+            $sqlOrderID ="SELECT orderID from `order` where address=\"$address\"";
+            $sqlOrderID = $this->connection->query($sqlOrderID);
+            var_dump($sqlOrderID["orderID"]);
+
+            for($i = 0; $i < count($cart); $i++){
+                $currentPizza = $cart[$i];
+
+                $sqlPizzaID = "SELECT pizzaID from menu where pizzaName=\"$currentPizza\"";
+                $sqlPizzaID = $this->connection->query($sqlPizzaID);
+                var_dump($sqlPizzaID["pizzaID"]);
+
+                //$sqlInsert = "INSERT INTO orderedPizza SET orderID=\"$sqlOrderID\", pizzaID=\"$sqlPizzaID\", status=\"Bestellt\"";
+                //var_dump($sqlInsert);
+            }
+
         }
 
     }
