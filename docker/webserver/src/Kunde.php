@@ -9,6 +9,15 @@ require_once './Page.php';
  * @author   Bican Gül 
  */
 class Kunde extends Page {
+
+    //Contains all orders
+    protected $allOrders = array();
+
+    //Contains all ordered pizzas
+    protected $allOrderedPizzas = array();
+
+    //Contains menu
+    protected $menu = array();
     
     /**
      * Creates a database connection.
@@ -38,6 +47,58 @@ class Kunde extends Page {
      */
     protected function getViewData() {
         // to do: fetch data for this view from the database
+        $this->checkDatabaseConnection();
+
+        //Gets orders from database and stores them in $allOrders
+        $this->getOrders();
+
+        //Gets ordered pizzas from DB and stores them in $allOrderedPizzas
+        $this->getOrderedPizzas();
+
+        //Gets all pizzas from menu
+        $this->getMenu();
+    }
+
+    protected function getMenu(){
+        $sql = "SELECT * from menu;";
+        $recordSet = $this->connection->query($sql);
+
+        if($recordSet->num_rows > 0){
+            while($row = $recordSet->fetch_assoc()){
+                $this->menu[count($this->menu)] = $row;
+            }
+            $recordSet->free();
+        } else {
+            echo mysqli_error($this->connection);
+        }   
+    }
+
+    protected function getOrderedPizzas(){
+        $sql = "SELECT * from orderedPizza;";
+        $recordSet = $this->connection->query($sql);
+
+        if($recordSet->num_rows > 0){
+            while($row = $recordSet->fetch_assoc()){
+                $this->allOrderedPizzas[count($this->allOrderedPizzas)] = $row;
+            }
+            $recordSet->free();
+        } else {
+            echo mysqli_error($this->connection);
+        }   
+    }
+
+    protected function getOrders(){
+        $sql = "SELECT * from `order`;";
+        $recordSet = $this->connection->query($sql);
+
+        if($recordSet->num_rows > 0){
+            while($row = $recordSet->fetch_assoc()){
+                $this->allOrders[count($this->allOrders)] = $row;
+            }
+            $recordSet->free();
+        } else {
+            echo mysqli_error($this->connection);
+        }   
     }
 
     /**
@@ -49,19 +110,45 @@ class Kunde extends Page {
 echo <<< HTML
     <h1>Kunde</h1>
     <section>
+        <h2>Kundenbestellungen:</h2>\n
+HTML;
+        //Forst for-loop to get go over all orders
+        for($i = 0; $i < count($this->allOrders); $i++){
+            //Get current orderID
+            $tmpOrderID = $this->allOrders[$i]['orderID'];
+echo <<< HTML
         <div>
-            <p>Pizza Salami</p>
-            <form action="https://echo.fbi.h-da.de" method ="get">
-                <select name="pizzaStatus" size="5">
-                    <option value="ordered">Bestellt</option>
-                    <option value="inOven">Im Oven</option>
-                    <option value="finished">Fertig</option>
-                    <option value="onTheWay">Auf dem Weg</option>
-                    <option value="delivered">Geliefert</option>
-                </select>
-                <br>
-                <br>
-                <input type="submit" name="submitButton" value="SubmitToCheckEcho" \>
+            <p>Bestellnummer: $tmpOrderID</p>\n
+HTML;
+        //Second for-loop to go over all pizzas in the current order
+        for($k = 0; $k < count($this->allOrderedPizzas); $k++){
+            //Get all infos of ordered pizzas
+            $tmpPizzaID = $this->allOrderedPizzas[$k]['pizzaID'];
+            $tmpPizzaStatus = $this->allOrderedPizzas[$k]['status'];
+            $tmpPizzaOrderID = $this->allOrderedPizzas[$k]['orderID'];
+            
+            //Get name of ordered pizzas
+            $tmpPizzaName = $this->menu[$tmpPizzaID-1]['pizzaName'];
+            
+            //Only print pizza when from current order
+            if($tmpOrderID == $tmpPizzaOrderID){
+echo <<< HTML
+            <p>$tmpPizzaName : $tmpPizzaStatus</p>\n
+HTML;
+            }
+        }
+echo <<< HTML
+            <p>---------------</p>
+        </div>\n
+HTML;
+        }
+echo <<< HTML
+    </section>
+    <section>
+        <div>
+            <!--Input-Field of type submit to redirect the user to Bestellung.php-->
+            <form action="http://localhost/Bestellung.php">
+                <input type="submit" value="Neue Bestellung">
             </form>
         </div>
     </section>

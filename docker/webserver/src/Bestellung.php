@@ -51,11 +51,10 @@ HTML;
     protected function getViewData() {
         
         $this->checkDatabaseConnection();
-        $this->connection->query("SET NAMES utf8");
 
         $sql = "SELECT * FROM menu;";
-
         $recordSet = $this->connection->query($sql);
+
         if ($recordSet->num_rows > 0) {
             
             while ($row = $recordSet->fetch_assoc()) {
@@ -89,7 +88,6 @@ echo <<< HTML
         </div>\n
 HTML;
         }
-        // TODO: Check if cart is empty before submit.
 echo <<< HTML
     </section>
     <section>
