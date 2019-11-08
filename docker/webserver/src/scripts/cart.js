@@ -13,7 +13,7 @@ function addToCart(pizzaName, pizzaPrice) {
 }
 
 function createPizza(pizzaName, pizzaPrice) {
-    "use strict"
+    "use strict";
 
     // Create pizza object.
     var pizza = {
@@ -28,7 +28,7 @@ function createPizza(pizzaName, pizzaPrice) {
 }
 
 function createCart() {
-    "use strict"
+    "use strict";
 
     // Get parent node.
     let selectNode = document.getElementById("cart");
@@ -71,6 +71,8 @@ function createCart() {
 }
 
 function selectAllOptions() {
+    "use strict";
+
     let selectNode = document.getElementById("cart");
 
     for (let i=0; i < selectNode.options.length; i++) {
@@ -79,6 +81,8 @@ function selectAllOptions() {
 }
 
 function deleteSelectedOptions() {
+    "use strict";
+
     let selectNode = document.getElementById("cart");
 
     for (let i=0; i < selectNode.options.length; i++) {
@@ -95,8 +99,9 @@ function deleteSelectedOptions() {
 }
 
 function deleteAllOptions() {
+    "use strict";
 
-    cart = [];
+    cart = []; // TODO: Change to cart.length = 0 and Test it.
     cartTotal = 0;
     pizzaID = 0;
 

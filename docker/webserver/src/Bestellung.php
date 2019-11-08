@@ -98,7 +98,7 @@ echo <<< HTML
             <form action="Bestellung.php" method="POST">
 
                 <!-- All cart items. -->
-                <select id="cart" name="cart[]" size="5" multiple>
+                <select id="cart" name="cart[]" size="5" multiple required>
                 </select>
 
                 <!-- Total cart price. -->
