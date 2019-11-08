@@ -152,37 +152,43 @@ HTML;
 
         if (isset($_POST["address"]) && isset($_POST["cart"])) {
 
+            // Save POST data into variables.
             $address = $this->connection->real_escape_string($_POST["address"]);
-            //$cart = $this->connection->real_escape_string($_POST["cart"]); // TODO: real_escape_string must be on string not on array.
-
             $cart = $_POST["cart"];
-
-            //var_dump($address);
-            //var_dump($cart);
 
             $this->checkDatabaseConnection();
 
-            $sqlAddress = "INSERT INTO `order` SET address=\"$address\"";
-            //var_dump($sql);
+            // INSERT order in database.
+            $sqlAddress = "INSERT INTO `order` SET address=\"$address\";";
             $this->connection->query($sqlAddress);
 
-            $sqlOrderID ="SELECT orderID from `order` where address=\"$address\"";
-            $sqlOrderID = $this->connection->query($sqlOrderID);
-            var_dump($sqlOrderID["orderID"]);
+            // SELECT orderID from database.
+            $sqlOrderID = "SELECT orderID FROM `order` WHERE address=\"$address\" ORDER BY orderTime DESC LIMIT 1;";
+            $record = $this->connection->query($sqlOrderID);
 
-            for($i = 0; $i < count($cart); $i++){
-                $currentPizza = $cart[$i];
-
-                $sqlPizzaID = "SELECT pizzaID from menu where pizzaName=\"$currentPizza\"";
-                $sqlPizzaID = $this->connection->query($sqlPizzaID);
-                var_dump($sqlPizzaID["pizzaID"]);
-
-                //$sqlInsert = "INSERT INTO orderedPizza SET orderID=\"$sqlOrderID\", pizzaID=\"$sqlPizzaID\", status=\"Bestellt\"";
-                //var_dump($sqlInsert);
+            if ($record->num_rows == 1) {
+                $row = $record->fetch_assoc();
+                $orderID = $row["orderID"];
             }
 
-        }
+            // Iterate on cart.
+            for ($i = 0; $i < count($cart); $i++) {
+                $currentPizza = $cart[$i];
 
+                // SELECT pizzaID from database.
+                $sqlPizzaID = "SELECT pizzaID from menu where pizzaName=\"$currentPizza\"";
+                $record = $this->connection->query($sqlPizzaID);
+
+                if ($record->num_rows == 1) {
+                    $row = $record->fetch_assoc();
+                    $pizzaID = $row["pizzaID"];
+                }
+
+            }
+
+            //$sqlInsert = "INSERT INTO orderedPizza SET orderID=$sqlOrderID, pizzaID=$sqlPizzaID, status=\"Bestellt\"";
+            //var_dump($sqlInsert);
+        }
     }
 
     /**
