@@ -184,10 +184,12 @@ HTML;
                     $pizzaID = $row["pizzaID"];
                 }
 
-            }
+                $sqlInsert = "INSERT INTO orderedPizza SET orderID=$orderID, pizzaID=$pizzaID, status=\"Bestellt\"";
+                //var_dump($sqlInsert);
+                $this->connection->query($sqlInsert);
 
-            //$sqlInsert = "INSERT INTO orderedPizza SET orderID=$sqlOrderID, pizzaID=$sqlPizzaID, status=\"Bestellt\"";
-            //var_dump($sqlInsert);
+
+            }
         }
     }
 

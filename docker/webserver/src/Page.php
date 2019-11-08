@@ -60,6 +60,7 @@ abstract class Page {
         if ($this->connection->connect_errno) {
             die("Connection to the MySQL database failed: " . $this->connection->connect_errno);
         }
+        $this->connection->query("SET NAMES utf8");
     }
 
     /**
