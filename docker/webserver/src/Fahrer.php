@@ -164,7 +164,7 @@ HTML;
                     $areAllPizzasFinished += 1;
             }
 
-            //Checks complete order is finished, and prints it
+            //Checks if complete order is finished, and prints it
             if($areAllPizzasFinished == count($orderPizzaStates)){
 echo <<< HTML
             <div>
