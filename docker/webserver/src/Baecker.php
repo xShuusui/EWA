@@ -111,12 +111,11 @@ echo <<< HTML
 HTML;
                         } else if ($this->orderedPizzas[$i]["status"] === "Im Ofen") {
 echo <<< HTML
-                <option value="Bestellt">Bestellt</option>
                 <option value="Im Ofen" selected>Im Ofen</option>
+                <option value="Fertig">Fertig</option>
 HTML;
                         }
 echo <<< HTML
-                <option value="Fertig">Fertig</option>
             </select>
             <input type="submit" value="Übernehmen"/>
         </form>
@@ -168,7 +167,13 @@ HTML;
             $status = $this->connection->real_escape_string($_POST["status"]);
 
             // Select orderedPizzaID from database.
-            $sqlSelect = "SELECT orderedPizzaID FROM orderedPizza WHERE orderID=$orderID AND pizzaID=$pizzaID ORDER BY orderedPizzaID ASC LIMIT 1";
+            if ($status === "Im Ofen") {
+                $sqlSelect = "SELECT orderedPizzaID FROM orderedPizza WHERE orderID=$orderID AND pizzaID=$pizzaID AND status=\"Bestellt\" 
+                    ORDER BY orderedPizzaID ASC LIMIT 1";
+            } else if ($status === "Fertig") {
+                $sqlSelect = "SELECT orderedPizzaID FROM orderedPizza WHERE orderID=$orderID AND pizzaID=$pizzaID AND status=\"Im Ofen\"
+                ORDER BY orderedPizzaID ASC LIMIT 1";
+            }
             $record = $this->connection->query($sqlSelect);
 
             if ($record->num_rows == 1) {
