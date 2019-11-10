@@ -52,11 +52,13 @@ HTML;
         
         $this->checkDatabaseConnection();
 
-        $sql = "SELECT * FROM menu;";
-        $recordSet = $this->connection->query($sql);
+        // Select menu from database.
+        $sqlSelect = "SELECT * FROM menu";
+        $recordSet = $this->connection->query($sqlSelect);
 
         if ($recordSet->num_rows > 0) {
-            
+
+            // Iterate through recordSet and get the menu.
             while ($row = $recordSet->fetch_assoc()) {
                 $this->menu[count($this->menu)] = $row;
             }
@@ -77,17 +79,18 @@ echo <<< HTML
     <h1>Bestellungen</h1>
     <section>
         <h2>Speisekarte</h2>\n
-HTML;        
+HTML;    
         for($i = 0; $i < count($this->menu); $i++){
             $price = number_format((float) $this->menu[$i]['pizzaPrice'], 2, ".", ",");
             $pizzaName = $this->menu[$i]['pizzaName'];
+
 echo <<< HTML
         <div>
             <img id="$i" onclick="addToCart('$pizzaName', $price)" src="{$this->menu[$i]['imagePath']}" alt="$pizzaName" width="250" height="250" />
             <p data-price-{$pizzaName}="$price"> Pizza $pizzaName: $price €</p>
         </div>\n
 HTML;
-        }
+        }  
 echo <<< HTML
     </section>
     <section>
@@ -148,6 +151,7 @@ HTML;
 
         parent::processReceivedData();
 
+        // Check if POST variables are declared.
         if (isset($_POST["address"]) && isset($_POST["cart"])) {
 
             $this->checkDatabaseConnection();
@@ -157,35 +161,31 @@ HTML;
             $cart = $_POST["cart"];
 
             // Insert order in database.
-            $sqlAddress = "INSERT INTO `order` SET address=\"$address\";";
-            $this->connection->query($sqlAddress);
+            $sqlInsert = "INSERT INTO `order` SET address=\"$address\"";
+            $this->connection->query($sqlInsert);
 
-            // Select orderID from database.
-            $sqlOrderID = "SELECT orderID FROM `order` WHERE address=\"$address\" ORDER BY orderTime DESC LIMIT 1;";
-            $record = $this->connection->query($sqlOrderID);
+            // Get orderID from the latest insert.
+            $orderID = $this->connection->insert_id;
 
-            if ($record->num_rows == 1) {
-                $row = $record->fetch_assoc();
-                $orderID = $row["orderID"];
-            }
-
-            // Iterate through cart.
+            // Iterate through cart array.
             for ($i = 0; $i < count($cart); $i++) {
                 $currentPizza = $this->connection->real_escape_string($cart[$i]);
 
                 // Select pizzaID from database.
-                $sqlPizzaID = "SELECT pizzaID from menu where pizzaName=\"$currentPizza\"";
-                $record = $this->connection->query($sqlPizzaID);
+                $sqlSelect = "SELECT pizzaID FROM menu WHERE pizzaName=\"$currentPizza\"";
+                $record = $this->connection->query($sqlSelect);
 
                 if ($record->num_rows == 1) {
                     $row = $record->fetch_assoc();
                     $pizzaID = $row["pizzaID"];
+                    $record->free();
                 }
 
                 // Insert orderedPizza in database.
                 $sqlInsert = "INSERT INTO orderedPizza SET orderID=$orderID, pizzaID=$pizzaID, status=\"Bestellt\"";
                 $this->connection->query($sqlInsert);
             }
+            header('Location: http://localhost/Bestellung.php');
         }
     }
 
