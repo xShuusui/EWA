@@ -110,45 +110,90 @@ class Fahrer extends Page{
 echo <<< HTML
     <h1>Fahrer</h1>
     <section>
-        <h2>Lieferungen:</h2>
+        <h2>Abholbereite Lieferungen:</h2>
+        <div>\n
 HTML;
         //First for-loop to go over all orders
+        //All variables and Arrays in first-loop are for the respective order
         for($i = 0; $i < count($this->allOrders); $i++){
-            //Get current orderID
+            //Get current orderID and orderAddress
             $orderID = $this->allOrders[$i]['orderID'];
             $orderAddress = $this->allOrders[$i]['address'];
 
-echo <<< HTML
-            <p>$orderAddress, </p>
-HTML;
-            //Array in which we wil save all IDs of the orderedPizzas of current order
-            $pizzaIDs = array();
+            //Array of all pizzaIDs
+            $orderPizzaIDs = array();
+            //Array of the status of all ordered pizzas
+            $orderPizzaStates = array();
+            //Array of orderedPizzaIDs
+            $orderedPizzaIDs = array();
+
             //Second for-loop to go over all orderedPizzas
             for($j = 0; $j < count($this->allOrderedPizzas); $j++){
-                
-                //Only get pizzaID from pizzas of current order
+
+                //Only get pizzas from current order
                 if($this->allOrderedPizzas[$j]['orderID'] == $orderID){
-                    //Pushes new element to end of array
-                    array_push($pizzaIDs, $this->allOrderedPizzas[$j]['pizzaID']);
+
+                    //Pushes pizzaID to end of array
+                    array_push($orderPizzaIDs, $this->allOrderedPizzas[$j]['pizzaID']);
+                    //Pushes pizza status to end of array
+                    array_push($orderPizzaStates, $this->allOrderedPizzas[$j]['status']);
+
+                    //Push orderedPizzaID into array
+                    array_push($orderedPizzaIDs, $this->allOrderedPizzas[$j]['orderedPizzaID']);
                 }
             }
 
-            //Calculate total price of order, third for-loop to go over menu and get prices of pizzas
-            //Also get all pizza names of current order
+            //Total price of order
             $totalOrderPrice = 0;
+            //Array of all pizza names
             $orderPizzaNames = array();
-            for($k = 0; $k < count($pizzaIDs); $k++){
+
+            //Third for-loop to go over menu and get prices of pizzas
+            for($k = 0; $k < count($orderPizzaIDs); $k++){
+
                 //Get pizzaPrice of current pizzaID and add to $totalOrderPrice
-                $totalOrderPrice += $this->menu[$pizzaIDs[$k] - 1]['pizzaPrice'];
+                $totalOrderPrice += $this->menu[$orderPizzaIDs[$k] - 1]['pizzaPrice'];
                 //Get the pizzaNames and push them at end of array
-                array_push($orderPizzaNames,$this->menu[$pizzaIDs[$k] - 1]['pizzaName']);
+                array_push($orderPizzaNames,$this->menu[$orderPizzaIDs[$k] - 1]['pizzaName']);
             }
 
-            //TODO: Continue implementation of Fahrer.php
+            //Variable to check if all pizzas are finished
+            $areAllPizzasFinished = 0;
+            foreach($orderPizzaStates as $currentStatus){
+                if($currentStatus == "Fertig" || $currentStatus == "Geliefert")
+                    $areAllPizzasFinished += 1;
+            }
 
+            //Checks complete order is finished, and prints it
+            if($areAllPizzasFinished == count($orderPizzaStates)){
+echo <<< HTML
+            <div>
+                <form action="./Fahrer.php" method="POST">
+                    <p>Bestellung $orderID:</p>
+                    <p>$orderAddress,&emsp; $totalOrderPrice €</p>\n
+HTML;
+                    for($l = 0; $l < count($orderPizzaNames); $l++){
+echo <<< HTML
+                    <span>$orderPizzaNames[$l];</span>\n
+HTML;
+                    }
+echo <<< HTML
+                    <br>
+                    <input type="hidden" name="orderedPizzaIDs" value="$orderedPizzaIDs" />
+                    <select name="pizzaStatus" size="1">
+                        <option value="Unterwegs">Unterwegs</option>
+                        <option value="Geliefert">Geliefert</option>
+                    </select>
+                    <input type="submit" value="Übernehmen" />
+                </form>
+                <p>---------------</p>
+            </div>\n
+HTML;
+            }
         }
 
 echo <<< HTML
+        </div>
     </section>
 HTML;
     }
