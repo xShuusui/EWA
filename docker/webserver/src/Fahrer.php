@@ -10,6 +10,15 @@ require_once './Page.php';
  */
 class Fahrer extends Page{
 
+    //Contains all orders
+    protected $allOrders = array();
+
+    //Contains all ordered pizzas
+    protected $allOrderedPizzas = array();
+
+    //Contains menu
+    protected $menu = array();
+
     /**
      * Creates a database connection.
      *
@@ -38,6 +47,58 @@ class Fahrer extends Page{
      */
     protected function getViewData(){
         // to do: fetch data for this view from the database
+        $this->checkDatabaseConnection();
+
+        //Gets orders from database and stores them in $allOrders
+        $this->getOrders();
+
+        //Gets ordered pizzas from DB and stores them in $allOrderedPizzas
+        $this->getOrderedPizzas();
+
+        //Gets all pizzas from menu
+        $this->getMenu();
+    }
+
+    protected function getMenu(){
+        $sql = "SELECT * from menu;";
+        $recordSet = $this->connection->query($sql);
+
+        if($recordSet->num_rows > 0){
+            while($row = $recordSet->fetch_assoc()){
+                $this->menu[count($this->menu)] = $row;
+            }
+            $recordSet->free();
+        } else {
+            echo mysqli_error($this->connection);
+        }   
+    }
+
+    protected function getOrderedPizzas(){
+        $sql = "SELECT * from orderedPizza;";
+        $recordSet = $this->connection->query($sql);
+
+        if($recordSet->num_rows > 0){
+            while($row = $recordSet->fetch_assoc()){
+                $this->allOrderedPizzas[count($this->allOrderedPizzas)] = $row;
+            }
+            $recordSet->free();
+        } else {
+            echo mysqli_error($this->connection);
+        }   
+    }
+
+    protected function getOrders(){
+        $sql = "SELECT * from `order`;";
+        $recordSet = $this->connection->query($sql);
+
+        if($recordSet->num_rows > 0){
+            while($row = $recordSet->fetch_assoc()){
+                $this->allOrders[count($this->allOrders)] = $row;
+            }
+            $recordSet->free();
+        } else {
+            echo mysqli_error($this->connection);
+        }   
     }
 
     /**
@@ -49,19 +110,45 @@ class Fahrer extends Page{
 echo <<< HTML
     <h1>Fahrer</h1>
     <section>
-        <div>
-            <p>Bestellung 1</p>
-            <form action="https://echo.fbi.h-da.de" method ="get">
-                <select name="driverStatusSelection" size="1">
-                    <option value="inOvenOfCook">Noch im Ofen</option>
-                    <option value="readyToPickUp">Bereit zur Abholung</option>
-                    <option value="onDelivery">Wird ausgeliefert</option>
-                </select>
-                <br>
-                <br>
-                <input type="submit" name="submitDriverStatus" value="SubmitEchoAbfragen" \>
-            </form>
-        </div>
+        <h2>Lieferungen:</h2>
+HTML;
+        //First for-loop to go over all orders
+        for($i = 0; $i < count($this->allOrders); $i++){
+            //Get current orderID
+            $orderID = $this->allOrders[$i]['orderID'];
+            $orderAddress = $this->allOrders[$i]['address'];
+
+echo <<< HTML
+            <p>$orderAddress, </p>
+HTML;
+            //Array in which we wil save all IDs of the orderedPizzas of current order
+            $pizzaIDs = array();
+            //Second for-loop to go over all orderedPizzas
+            for($j = 0; $j < count($this->allOrderedPizzas); $j++){
+                
+                //Only get pizzaID from pizzas of current order
+                if($this->allOrderedPizzas[$j]['orderID'] == $orderID){
+                    //Pushes new element to end of array
+                    array_push($pizzaIDs, $this->allOrderedPizzas[$j]['pizzaID']);
+                }
+            }
+
+            //Calculate total price of order, third for-loop to go over menu and get prices of pizzas
+            //Also get all pizza names of current order
+            $totalOrderPrice = 0;
+            $orderPizzaNames = array();
+            for($k = 0; $k < count($pizzaIDs); $k++){
+                //Get pizzaPrice of current pizzaID and add to $totalOrderPrice
+                $totalOrderPrice += $this->menu[$pizzaIDs[$k] - 1]['pizzaPrice'];
+                //Get the pizzaNames and push them at end of array
+                array_push($orderPizzaNames,$this->menu[$pizzaIDs[$k] - 1]['pizzaName']);
+            }
+
+            //TODO: Continue implementation of Fahrer.php
+
+        }
+
+echo <<< HTML
     </section>
 HTML;
     }

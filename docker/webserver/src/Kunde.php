@@ -112,7 +112,7 @@ echo <<< HTML
     <section>
         <h2>Kundenbestellungen:</h2>\n
 HTML;
-        //Forst for-loop to get go over all orders
+        //First for-loop to go over all orders
         for($i = 0; $i < count($this->allOrders); $i++){
             //Get current orderID
             $tmpOrderID = $this->allOrders[$i]['orderID'];
