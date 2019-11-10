@@ -96,16 +96,26 @@ HTML;
                         $pizzaID = $this->orderedPizzas[$i]["pizzaID"];
 
                         $this->orderedPizzas[$i]["checked"] = true;
-                        // FIXME: Zeige aktuellen Status auf Bäckerseite an.
 echo <<< HTML
-        <form action="./Baecker.php" method="POST"> 
+        <form action="./Baecker.php" method="POST">
             <p>Bestellnummer: $orderID</p>
             <p>Pizza: $pizzaName</p>
             <input type="hidden" name="orderID" value="$orderID" />
             <input type="hidden" name="pizzaID" value="$pizzaID" />
             <select name="status" size="1">
-                <option value="Bestellt">Bestellt</option>
+HTML;
+                        if ($this->orderedPizzas[$i]["status"] === "Bestellt") {
+echo <<< HTML
+                <option value="Bestellt" selected>Bestellt</option>
                 <option value="Im Ofen">Im Ofen</option>
+HTML;
+                        } else if ($this->orderedPizzas[$i]["status"] === "Im Ofen") {
+echo <<< HTML
+                <option value="Bestellt">Bestellt</option>
+                <option value="Im Ofen" selected>Im Ofen</option>
+HTML;
+                        }
+echo <<< HTML
                 <option value="Fertig">Fertig</option>
             </select>
             <input type="submit" value="Übernehmen"/>
@@ -170,6 +180,8 @@ HTML;
             // Update orderedPizza in database.
             $sqlUpdate = "UPDATE orderedPizza SET status=\"$status\" WHERE orderedPizzaID=$orderedPizzaID";
             $this->connection->query($sqlUpdate);
+
+            header('Location: http://localhost/Baecker.php');
         }
     }
 

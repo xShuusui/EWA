@@ -185,6 +185,7 @@ HTML;
                 $sqlInsert = "INSERT INTO orderedPizza SET orderID=$orderID, pizzaID=$pizzaID, status=\"Bestellt\"";
                 $this->connection->query($sqlInsert);
             }
+            header('Location: http://localhost/Bestellung.php');
         }
     }
 
