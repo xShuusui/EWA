@@ -43,15 +43,16 @@ class Baecker extends Page {
         
         $this->checkDatabaseConnection();
 
-        $sql = "SELECT menu.pizzaID, menu.pizzaName, orderedPizza.orderID, orderedPizza.status FROM orderedPizza INNER JOIN menu 
+        // Select some stuff from database.
+        $sqlSelect = "SELECT menu.pizzaID, menu.pizzaName, orderedPizza.orderID, orderedPizza.status FROM orderedPizza INNER JOIN menu 
             ON orderedPizza.pizzaID=menu.pizzaID WHERE status='Bestellt' OR status='Im Ofen'";
-        $recordSet = $this->connection->query($sql);
+        $recordSet = $this->connection->query($sqlSelect);
 
         if ($recordSet->num_rows > 0) {
             
+            // Iterate through recordSet and create new array for each ordered pizza.
             while ($row = $recordSet->fetch_assoc()) {
 
-                // Create new array for each ordered pizza.
                 $orderedPizza = array();
                 $orderedPizza["pizzaID"] = $row["pizzaID"];
                 $orderedPizza["pizzaName"] = $row["pizzaName"];
@@ -61,14 +62,11 @@ class Baecker extends Page {
 
                 // Push the orderedPizza array in the orderedPizzas array.
                 $this->orderedPizzas[count($this->orderedPizzas)] = $orderedPizza;
-
             }
             $recordSet->free();
         } else {
             echo mysqli_error($this->connection);
         }
-
-        //var_dump($this->orderedPizzas[0]);
     }
 
     /**
@@ -80,10 +78,8 @@ class Baecker extends Page {
 echo <<< HTML
     <h1>Bäcker</h1>
     <section>
-        <h2>Kundenbestellungen:</h2>
-
+        <h2>Kundenbestellungen:</h2>\n
 HTML;
-
         // Iterate through all orderedPizzas.
         for ($i = 0; $i < count($this->orderedPizzas); $i++) {
 
@@ -116,7 +112,6 @@ echo <<< HTML
         </form>
         <p>----------------------------------------------------------</p>\n
 HTML;
-
                     }
                 }
             }
@@ -154,35 +149,28 @@ HTML;
 
         parent::processReceivedData();
 
-        if (isset($_POST["status"]) && isset($_POST["orderID"]) && isset($_POST["pizzaID"])) {
+        // Check if POST variables are declared.
+        if (isset($_POST["orderID"]) && isset($_POST["pizzaID"]) && isset($_POST["status"])) {
             
             // Save POST data into variables and mask special characters.
-            $status = $this->connection->real_escape_string($_POST["status"]);
             $orderID = $this->connection->real_escape_string($_POST["orderID"]);
             $pizzaID = $this->connection->real_escape_string($_POST["pizzaID"]);
+            $status = $this->connection->real_escape_string($_POST["status"]);
 
             // Select orderedPizzaID from database.
-            $sqlSelect = "SELECT orderedPizzaID FROM orderedPizza WHERE orderID=$orderID AND pizzaID=$pizzaID";
-            $recordSet = $this->connection->query($sqlSelect);
+            $sqlSelect = "SELECT orderedPizzaID FROM orderedPizza WHERE orderID=$orderID AND pizzaID=$pizzaID ORDER BY orderedPizzaID ASC LIMIT 1";
+            $record = $this->connection->query($sqlSelect);
 
-            if ($recordSet->num_rows > 0) {
-               
-                while ($row = $recordSet->fetch_assoc()) {
-                    $orderedPizzaID = $row["orderedPizzaID"];
-
-                    // FIXME: orderID und pizzaID wäre gleich wenn zweimal Salami bestellt wird, also werden beide in der Datanbenk geupdatet.
-                    // Update orderedPizza in database.
-                    $sqlUpdate = "UPDATE orderedPizza SET status=\"$status\" WHERE orderedPizzaID=$orderedPizzaID";
-                    $this->connection->query($sqlUpdate);
-                }
-                
-                $recordSet->free();
-            } else {
-                echo mysqli_error($this->connection);
+            if ($record->num_rows == 1) {
+                $row = $record->fetch_assoc();
+                $orderedPizzaID = $row["orderedPizzaID"];
+                $record->free();
             }
 
+            // Update orderedPizza in database.
+            $sqlUpdate = "UPDATE orderedPizza SET status=\"$status\" WHERE orderedPizzaID=$orderedPizzaID";
+            $this->connection->query($sqlUpdate);
         }
-
     }
 
     /**
