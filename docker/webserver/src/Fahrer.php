@@ -160,7 +160,7 @@ HTML;
             //Variable to check if all pizzas are finished
             $areAllPizzasFinished = 0;
             foreach($orderPizzaStates as $currentStatus){
-                if($currentStatus == "Fertig" || $currentStatus == "Geliefert")
+                if($currentStatus == "Fertig" || $currentStatus == "Unterwegs")
                     $areAllPizzasFinished += 1;
             }
 
@@ -179,12 +179,18 @@ HTML;
                     }
 echo <<< HTML
                     <br>
-                    <!---FIXME: Must send data of array or complete array (orderedPizzaIDs)-->
                     <select name="pizzaStatus" size="1">
                         <option value="Unterwegs">Unterwegs</option>
                         <option value="Geliefert">Geliefert</option>
                     </select>
-                    <input type="submit" value="Übernehmen" />
+                    <input type="submit" value="Übernehmen" />\n
+HTML;
+                    for($m = 0; $m < count($orderedPizzaIDs); $m++){
+echo <<< HTML
+                    <input type="hidden" name="pizzaIDsOfOrder[$m]" value="$orderedPizzaIDs[$m]"/>\n
+HTML;
+                    }
+echo <<< HTML
                 </form>
                 <p>---------------</p>
             </div>\n
@@ -226,12 +232,18 @@ HTML;
 
         parent::processReceivedData();
 
-        if(isset($_POST["orderedPizzaIDs"]) && isset($_POST["pizzaStatus"])){
+        if(isset($_POST["pizzaIDsOfOrder"]) && isset($_POST["pizzaStatus"])){
 
             //Save POST-Data into variables and mask special characters.
-            $pizzaStatesOfPOST = $this->connection->real_escape_string($_POST["pizzaStatus"]);
-            $pizzaIDsOfPost = array(); //FIXME: Save array here, currently not working
+            $pizzaStateOfPost = $this->connection->real_escape_string($_POST["pizzaStatus"]);
+            $pizzaIDsOfPost = array();
+            $pizzaIDsOfPost = $_POST['pizzaIDsOfOrder']; //Kein real_escape_string, fragen ob es ok ist
 
+            //Save new states in respective orderedPizzas
+            for($i = 0; $i < count($pizzaIDsOfPost); $i++){
+                $sqlUpdate = "UPDATE orderedPizza SET status=\"$pizzaStateOfPost\" WHERE orderedPizzaID=$pizzaIDsOfPost[$i]";
+                $this->connection->query($sqlUpdate);
+            }
         }
     }
 
