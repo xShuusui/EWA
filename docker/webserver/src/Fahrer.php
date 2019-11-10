@@ -179,7 +179,7 @@ HTML;
                     }
 echo <<< HTML
                     <br>
-                    <input type="hidden" name="orderedPizzaIDs" value="$orderedPizzaIDs" />
+                    <!---FIXME: Must send data of array or complete array (orderedPizzaIDs)-->
                     <select name="pizzaStatus" size="1">
                         <option value="Unterwegs">Unterwegs</option>
                         <option value="Geliefert">Geliefert</option>
@@ -225,6 +225,14 @@ HTML;
     protected function processReceivedData(){
 
         parent::processReceivedData();
+
+        if(isset($_POST["orderedPizzaIDs"]) && isset($_POST["pizzaStatus"])){
+
+            //Save POST-Data into variables and mask special characters.
+            $pizzaStatesOfPOST = $this->connection->real_escape_string($_POST["pizzaStatus"]);
+            $pizzaIDsOfPost = array(); //FIXME: Save array here, currently not working
+
+        }
     }
 
     /**
