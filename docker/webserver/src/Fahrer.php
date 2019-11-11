@@ -40,6 +40,15 @@ class Fahrer extends Page{
     }
 
     /**
+     * This function can be overwritten to add additional Meta Tags.
+     */
+    protected function addAdditionalMeta() {
+echo <<< HTML
+    <meta http-equiv="refresh" content="5" >\n
+HTML;
+                }
+
+    /**
      * Fetch all data that is necessary for later output.
      * Data is stored in an easily accessible way e.g. as associative array.
      *
@@ -244,6 +253,8 @@ HTML;
                 $sqlUpdate = "UPDATE orderedPizza SET status=\"$pizzaStateOfPost\" WHERE orderedPizzaID=$pizzaIDsOfPost[$i]";
                 $this->connection->query($sqlUpdate);
             }
+
+            header('Location: http://localhost/Fahrer.php');
         }
     }
 

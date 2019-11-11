@@ -64,9 +64,14 @@ abstract class Page {
     }
 
     /**
+     * This function can be overwritten to add additional Meta Tags.
+     */
+    protected function addAdditionalMeta() { }
+
+    /**
      * This function can be overwritten to add additional CSS files or scripts.
      */
-    protected function addAdditionalHead() { }
+    protected function addAdditionalScript() { }
     
     /**
      * Generates the header section of the page.
@@ -87,8 +92,12 @@ echo <<< HTML
 <head>
     <title>$title</title>
 
+    <!-- Default Meta Tags. -->
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />\n
+HTML;
+        $this->addAdditionalMeta();
+echo <<< HTML
 
     <!-- Default CSS files. -->
     <link rel="stylesheet" type="text/css" href="styles/main.css" />
@@ -96,9 +105,7 @@ echo <<< HTML
     <!-- Default JS imports.-->
     <script src="scripts/main.js"></script>\n
 HTML;
-
-        $this->addAdditionalHead();
-
+        $this->addAdditionalScript();
 echo <<< HTML
 \n</head>
 <body>\n
