@@ -36,9 +36,9 @@ class Bestellung extends Page {
     /**
      * Add additional CSS files and scripts to the head.
      */
-    protected function addAdditionalHead() {
+    protected function addAdditionalScript() {
 echo <<< HTML
-    <script src="scripts/cart.js"></script>
+    <script src="scripts/cart.js"></script>\n
 HTML;
     }
 

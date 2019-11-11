@@ -35,6 +35,15 @@ class Baecker extends Page {
     }
     
     /**
+     * This function can be overwritten to add additional Meta Tags.
+     */
+    protected function addAdditionalMeta() {
+echo <<< HTML
+    <meta http-equiv="refresh" content="5" />\n
+HTML;
+        }
+
+    /**
      * Fetch all data that is necessary for later output.
      * Data is stored in an easily accessible way e.g. as associative array.
      *
