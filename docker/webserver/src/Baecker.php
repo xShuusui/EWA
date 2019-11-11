@@ -12,6 +12,7 @@ class Baecker extends Page {
 
     /** Contains all ordered pizzas. */
     protected $orderedPizzas = array();
+    protected $orderArray = array();
     
     /**
      * Creates a database connection.
@@ -32,7 +33,7 @@ class Baecker extends Page {
 
         parent::__destruct();
     }
-
+    
     /**
      * Fetch all data that is necessary for later output.
      * Data is stored in an easily accessible way e.g. as associative array.
@@ -48,6 +49,28 @@ class Baecker extends Page {
             ON orderedPizza.pizzaID=menu.pizzaID WHERE status='Bestellt' OR status='Im Ofen'";
         $recordSet = $this->connection->query($sqlSelect);
 
+        $orderedPizzas2 = array();
+        $pizza = array();
+
+        if ($recordSet->num_rows > 0) {
+            while ($row = $recordSet->fetch_assoc()) {
+                // Get orderID.
+                $orderID = $row["orderID"];
+
+                // Create pizza array.
+                $pizza = $row["pizzaID"];
+                $pizza = $row["pizzaName"];
+                $pizza = $row["status"];
+                
+                // Push pizza array in orderedPizzas.
+                $orderedPizzas2[count($orderedPizzas2)] = $pizza;
+
+                var_dump($pizza);
+
+
+            }
+        }
+/*
         if ($recordSet->num_rows > 0) {
             
             // Iterate through recordSet and create new array for each ordered pizza.
@@ -67,6 +90,7 @@ class Baecker extends Page {
         } else {
             echo mysqli_error($this->connection);
         }
+        */
     }
 
     /**
