@@ -76,7 +76,7 @@ HTML;
     protected function generatePageBody() {
 
 echo <<< HTML
-    <h1>Bestellungen</h1>
+    <h1>Bestellung</h1>
     <section>
         <h2>Speisekarte</h2>\n
 HTML;    
