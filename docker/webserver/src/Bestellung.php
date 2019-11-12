@@ -169,7 +169,7 @@ HTML;
             $cart = $_POST["cart"];
 
             // Insert order in database.
-            $sqlInsert = "INSERT INTO `order` SET fullName=\"$fullName\", address=\"$address\"";
+            $sqlInsert = "INSERT INTO `order` SET `fullName`=\"$fullName\", `address`=\"$address\"";
             $this->connection->query($sqlInsert);
 
             // Get orderID from the latest insert.
@@ -180,7 +180,7 @@ HTML;
                 $currentPizzaName = $this->connection->real_escape_string($cart[$i]);
 
                 // Insert orderedPizza in database.
-                $sqlInsert = "INSERT INTO orderedPizza SET orderID=$orderID, pizzaName=\"$currentPizzaName\", status=\"Bestellt\"";
+                $sqlInsert = "INSERT INTO `orderedPizza` SET `orderID`=$orderID, `pizzaName`=\"$currentPizzaName\", `status`=\"Bestellt\"";
                 $this->connection->query($sqlInsert);
             }
 
