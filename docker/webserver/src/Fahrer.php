@@ -246,11 +246,12 @@ HTML;
             //Save POST-Data into variables and mask special characters.
             $pizzaStateOfPost = $this->connection->real_escape_string($_POST["pizzaStatus"]);
             $pizzaIDsOfPost = array();
-            $pizzaIDsOfPost = $_POST['pizzaIDsOfOrder']; //Kein real_escape_string, fragen ob es ok ist
+            $pizzaIDsOfPost = $_POST['pizzaIDsOfOrder'];
 
             //Save new states in respective orderedPizzas
             for($i = 0; $i < count($pizzaIDsOfPost); $i++){
-                $sqlUpdate = "UPDATE orderedPizza SET status=\"$pizzaStateOfPost\" WHERE orderedPizzaID=$pizzaIDsOfPost[$i]";
+                $tmpPizzaID = $this->connection->real_escape_string($pizzaIDsOfPost[$i]);
+                $sqlUpdate = "UPDATE orderedPizza SET status=\"$pizzaStateOfPost\" WHERE orderedPizzaID=$tmpPizzaID";
                 $this->connection->query($sqlUpdate);
             }
 

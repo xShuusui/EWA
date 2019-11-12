@@ -110,6 +110,18 @@ echo <<< HTML
 \n</head>
 <body>\n
 HTML;
+        $this->generateNavBar();
+    }
+
+    protected function generateNavBar(){
+echo <<< HTML
+        <div>
+            <a href="http://localhost/Bestellung.php">Bestellung</a>
+            <a href="http://localhost/Baecker.php">Bäcker</a>
+            <a href="http://localhost/Fahrer.php">Fahrer</a>
+            <a href="http://localhost/Kunde.php">Kunde</a>
+        </div>
+HTML;
     }
 
     /**

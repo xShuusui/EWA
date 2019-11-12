@@ -51,29 +51,8 @@ class Startpage extends Page {
      * @return none
      */
     protected function generatePageBody() {
-
-// Startpage navigation.
-echo <<< HTML
-    <nav>
-        <ul>
-            <li> 
-                <a href="index.php">Startseite</a>
-            </li>
-            <li> 
-                <a href="Bestellung.php">Bestellseite</a>
-            </li>
-            <li> 
-                <a href="Baecker.php">Bäcker</a>
-            </li>
-            <li> 
-                <a href="Fahrer.php">Fahrer</a>
-            </li>
-            <li>
-                <a href="Kunde.php">Kunde</a>
-            </li>
-        </ul>
-    </nav>
-HTML;
+    // Startpage navigation.
+    
     }
     
     /**
