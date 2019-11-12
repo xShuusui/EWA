@@ -2,8 +2,10 @@
 FROM mariadb:latest
 
 # Update and upgrade the system | Install the locales package.
-RUN apt-get update && apt-get upgrade -y \
- && apt-get install locales
+#RUN apt-get update && apt-get upgrade -y \
+# && apt-get install locales
+
+RUN apt-get update && apt-get install locales
 
 # Replace in the file '/etc/local.gen' the locale settings | Reconfigure the new locale settings in background | Update the local variable LANG.
 RUN sed -i 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen \
