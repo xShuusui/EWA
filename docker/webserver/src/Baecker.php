@@ -11,7 +11,7 @@ require_once './Page.php';
  */
 class Baecker extends Page {
     
-    /** Contains all ordered pizzas. */
+    /** Contains all orders and orderedPizzas. */
     protected $orders = array();
 
     /**

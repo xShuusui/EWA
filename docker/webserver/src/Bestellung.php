@@ -3,7 +3,7 @@
 require_once './Page.php';
 
 /**
- * TODO: Beschreibung Bestellung.php
+ * Shows the menu with all pizzas and the shopping cart to order.
  * 
  * @author   Julian Segeth
  * @author   Bican Gül 
@@ -52,17 +52,24 @@ HTML;
         
         $this->checkDatabaseConnection();
 
-        // Select menu from database.
-        $sqlSelect = "SELECT * FROM menu";
+        // Select data from database.
+        $sqlSelect = "SELECT * FROM `menu`";
         $recordSet = $this->connection->query($sqlSelect);
 
         if ($recordSet->num_rows > 0) {
-
-            // Iterate through recordSet and get the menu.
             while ($row = $recordSet->fetch_assoc()) {
-                $this->menu[count($this->menu)] = $row;
+
+                // Create pizza[] and mask special characters.
+                $pizza = array();
+                $pizzaName = htmlspecialchars($row["pizzaName"]);
+                $pizza["imagePath"] = htmlspecialchars($row["imagePath"]);
+                $pizza["pizzaPrice"] = htmlspecialchars($row["pizzaPrice"]);
+
+                // Push pizza[] in menu[].
+                $this->menu[$pizzaName] = $pizza;
             }
             $recordSet->free();
+            //print_r($this->menu);
         } else {
             echo mysqli_error($this->connection);
         }
@@ -74,23 +81,21 @@ HTML;
      * @return none
      */
     protected function generatePageBody() {
-
 echo <<< HTML
     <h1>Bestellung</h1>
     <section>
         <h2>Speisekarte</h2>\n
 HTML;    
-        for($i = 0; $i < count($this->menu); $i++){
-            $price = number_format((float) $this->menu[$i]['pizzaPrice'], 2, ".", ",");
-            $pizzaName = $this->menu[$i]['pizzaName'];
-
+        foreach ($this->menu as $pizzaName => $pizza) {
+            $pizzaPrice = number_format($pizza["pizzaPrice"], 2, ".", ",");
+            $imagePath = $pizza["imagePath"];
 echo <<< HTML
         <div>
-            <img id="$i" onclick="addToCart('$pizzaName', $price)" src="{$this->menu[$i]['imagePath']}" alt="$pizzaName" width="250" height="250" />
-            <p data-price-{$pizzaName}="$price"> Pizza $pizzaName: $price €</p>
+            <img onclick="addToCart('$pizzaName', $pizzaPrice)" src="$imagePath" alt="$pizzaName" width="250" height="250" />
+            <p data-price-{$pizzaName}="$pizzaPrice">Pizza $pizzaName: $pizzaPrice €</p>
         </div>\n
 HTML;
-        }  
+        }
 echo <<< HTML
     </section>
     <section>
@@ -170,7 +175,7 @@ HTML;
             // Get orderID from the latest insert.
             $orderID = $this->connection->insert_id;
 
-            // Iterate through cart array.
+            // Iterate through cart[] and mask special characters.
             for ($i = 0; $i < count($cart); $i++) {
                 $currentPizzaName = $this->connection->real_escape_string($cart[$i]);
 
@@ -178,6 +183,8 @@ HTML;
                 $sqlInsert = "INSERT INTO orderedPizza SET orderID=$orderID, pizzaName=\"$currentPizzaName\", status=\"Bestellt\"";
                 $this->connection->query($sqlInsert);
             }
+
+            // Redirect on Bestellung.php.
             header('Location: http://localhost/Bestellung.php');
         }
     }
