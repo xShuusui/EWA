@@ -3,7 +3,8 @@
 require_once './Page.php';
 
 /**
- * TODO: Beschreibung Baecker.php
+ * Shows orders and the corresponding pizzas with their current status,
+ * the baker can change the pizza status.
  * 
  * @author   Julian Segeth
  * @author   Bican Gül 
@@ -38,7 +39,7 @@ class Baecker extends Page {
      */
     protected function addAdditionalMeta() {
 echo <<< HTML
-    <!--<meta http-equiv="refresh" content="5" />\n-->
+    <meta http-equiv="refresh" content="5" />\n
 HTML;
     }
 
@@ -53,8 +54,7 @@ HTML;
         $this->checkDatabaseConnection();
 
         // Select data from database.
-        $sqlSelect = "SELECT menu.pizzaID, menu.pizzaName, orderedPizza.orderedPizzaID, orderedPizza.orderID, orderedPizza.status FROM orderedPizza INNER JOIN menu INNER JOIN order 
-            ON orderedPizza.pizzaID=menu.pizzaID, orderedPizza.orderID=order.orderID WHERE status='Bestellt' OR status='Im Ofen'";
+        $sqlSelect = "SELECT * FROM `orderedPizza` WHERE `status`='Bestellt' OR `status`='Im Ofen'";
         $recordSet = $this->connection->query($sqlSelect);
 
         if ($recordSet->num_rows > 0) {
@@ -63,51 +63,49 @@ HTML;
             $latestOrderID = null;
             while ($row = $recordSet->fetch_assoc()) {
 
-                // Get orderID.
-                $actuallyOrderID = $row["orderID"];
+                // Save IDs into variables and mask special characters.
+                $currentOrderID = htmlspecialchars($row["orderID"]);
+                $orderedPizzaID = htmlspecialchars($row["orderedPizzaID"]);
 
                 // Check if orderIDs are the same.
-                if ($latestOrderID === $actuallyOrderID || $latestOrderID === null) {
+                if ($latestOrderID === $currentOrderID || $latestOrderID === null) {
 
-                    // Create pizza[].
+                    // Create pizza[] and mask special characters.
                     $pizza = array();
-                    $pizza["pizzaID"] = $row["pizzaID"];
-                    $pizza["pizzaName"] = $row["pizzaName"];
-                    $pizza["status"] = $row["status"];
+                    $pizza["pizzaName"] = htmlspecialchars($row["pizzaName"]);
+                    $pizza["status"] = htmlspecialchars($row["status"]);
 
                     // Push pizza[] in orderedPizzas[].
-                    $orderedPizzas[count($orderedPizzas)] = $pizza;
+                    $orderedPizzas[$orderedPizzaID] = $pizza;
 
-                    // Save actuallyOrderID.
-                    $latestOrderID = $actuallyOrderID;
+                    // Save currentOrderID.
+                    $latestOrderID = $currentOrderID;
 
                 // If orderIDs different.
                 } else {
 
-                    // Create pizza[].
+                    // Create pizza[] and mask special characters.
                     $pizza = array();
-                    $pizza["pizzaID"] = $row["pizzaID"];
-                    $pizza["pizzaName"] = $row["pizzaName"];
-                    $pizza["status"] = $row["status"];
+                    $pizza["pizzaName"] = htmlspecialchars($row["pizzaName"]);
+                    $pizza["status"] = htmlspecialchars($row["status"]);
 
                     // Reset orderedPizzas[] and push pizza[] in orderedPizzas[].
                     $orderedPizzas = array();
-                    $orderedPizzas[count($orderedPizzas)] = $pizza;
+                    $orderedPizzas[$orderedPizzaID] = $pizza;
 
-                    // Save actuallyOrderID.
-                    $latestOrderID = $actuallyOrderID;
+                    // Save currentOrderID.
+                    $latestOrderID = $currentOrderID;
                 }
 
                 // Push orderedPizzas[] in orders[].
                 $this->orders[$latestOrderID] = $orderedPizzas;
             }
             $recordSet->free();
-            print_r($this->orders);
+            //print_r($this->orders);
         } else {
             echo mysqli_error($this->connection);
         }
     }
-
 
     /**
      * Generates the body section of the page.
@@ -120,30 +118,29 @@ echo <<< HTML
     <section>
         <h2>Kundenbestellungen:</h2>\n
 HTML;
-
+        // Iterate through orders[].
         foreach ($this->orders as $orderID => $orderedPizzas) {
-
 echo <<< HTML
         <div>
             <p>Bestellnummer: $orderID</p>\n
 HTML;
-
-            for ($i = 0; $i < count($orderedPizzas); $i++) {
-                $pizzaID = $orderedPizzas[$i]["pizzaID"];
-                $pizzaName = $orderedPizzas[$i]["pizzaName"];
-               
+            // Iterate through orderedPizzas[].
+            foreach ($orderedPizzas as $orderedPizzaID => $pizza) {
+                $pizzaName = $pizza["pizzaName"];
+                $status = $pizza["status"];
 echo <<< HTML
-            <p>Pizza: $pizzaName</p>
-            <form action="./Baecker.php" method="POST">
-                <input type="hidden" name="orderID" value="$orderID" />
-                <input type="hidden" name="pizzaID" value="$pizzaID" />
-                <select name="status" size="1">
-                    <option value="Bestellt" selected>Bestellt</option>
-                    <option value="Im Ofen">Im Ofen</option>
-                    <option value="Fertig">Fertig</option>
-                </select>
-                <input type="submit" value="Übernehmen"/>
-            </form>\n
+            <div>
+                <p>Pizza: $pizzaName | Status: $status</p>
+                <form action="./Baecker.php" method="POST">
+                    <input type="hidden" name="orderedPizzaID" value="$orderedPizzaID" />
+                    <select name="status" size="3">
+                        <option value="Bestellt" selected>Bestellt</option>
+                        <option value="Im Ofen">Im Ofen</option>
+                        <option value="Fertig">Fertig</option>
+                    </select>
+                    <input type="submit" value="Übernehmen"/>
+                </form>
+            </div>\n
 HTML;
             }
 echo <<< HTML
@@ -155,61 +152,6 @@ echo <<< HTML
     </section>
 HTML;
     }
-
-/*echo <<< HTML
-    <h1>Bäcker</h1>
-    <section>
-        <h2>Kundenbestellungen:</h2>\n
-HTML;
-        // Iterate through all orderedPizzas.
-        for ($i = 0; $i < count($this->orderedPizzas); $i++) {
-
-            // Iterate through all orderedPizzas.
-            for ($j = 0; $j < count($this->orderedPizzas); $j++) {
-                $orderID = $this->orderedPizzas[$j]["orderID"];
-
-                // Check if orderID is the same.
-                if ($this->orderedPizzas[$i]["orderID"] === $this->orderedPizzas[$j]["orderID"]) {
-                    
-                    // Check if checked is false.
-                    if ($this->orderedPizzas[$i]["checked"] === false) {
-                        $pizzaName = $this->orderedPizzas[$i]["pizzaName"];
-                        $pizzaID = $this->orderedPizzas[$i]["pizzaID"];
-
-                        $this->orderedPizzas[$i]["checked"] = true;
-echo <<< HTML
-        <form action="./Baecker.php" method="POST">
-            <p>Bestellnummer: $orderID</p>
-            <p>Pizza: $pizzaName</p>
-            <input type="hidden" name="orderID" value="$orderID" />
-            <input type="hidden" name="pizzaID" value="$pizzaID" />
-            <select name="status" size="1">
-HTML;
-                        if ($this->orderedPizzas[$i]["status"] === "Bestellt") {
-echo <<< HTML
-                <option value="Bestellt" selected>Bestellt</option>
-                <option value="Im Ofen">Im Ofen</option>
-HTML;
-                        } else if ($this->orderedPizzas[$i]["status"] === "Im Ofen") {
-echo <<< HTML
-                <option value="Im Ofen" selected>Im Ofen</option>
-                <option value="Fertig">Fertig</option>
-HTML;
-                        }
-echo <<< HTML
-            </select>
-            <input type="submit" value="Übernehmen"/>
-        </form>
-        <p>----------------------------------------------------------</p>\n
-HTML;
-                    }
-                }
-            }
-        }
-echo <<< HTML
-    </section>
-HTML;*/
-    //}
     
     /**
      * First the necessary data is fetched and then the HTML is 
@@ -223,7 +165,7 @@ HTML;*/
     protected function generateView() {
 
         $this->getViewData();
-        $this->generatePageHeader("Baecker");
+        $this->generatePageHeader("Bäcker");
         $this->generatePageBody();
         $this->generatePageFooter();
     }
@@ -240,33 +182,19 @@ HTML;*/
         parent::processReceivedData();
 
         // Check if POST variables are declared.
-        if (isset($_POST["orderID"]) && isset($_POST["pizzaID"]) && isset($_POST["status"])) {
+        if (isset($_POST["orderedPizzaID"]) && isset($_POST["status"])) {
+
+            $this->checkDatabaseConnection();
 
             // Save POST data into variables and mask special characters.
-            $orderID = $this->connection->real_escape_string($_POST["orderID"]);
-            $pizzaID = $this->connection->real_escape_string($_POST["pizzaID"]);
+            $orderedPizzaID = $this->connection->real_escape_string($_POST["orderedPizzaID"]);
             $status = $this->connection->real_escape_string($_POST["status"]);
 
-            // Select orderedPizzaID from database.
-            if ($status === "Im Ofen") {
-                $sqlSelect = "SELECT orderedPizzaID FROM orderedPizza WHERE orderID=$orderID AND pizzaID=$pizzaID AND status=\"Bestellt\" 
-                    ORDER BY orderedPizzaID ASC LIMIT 1";
-            } else if ($status === "Fertig") {
-                $sqlSelect = "SELECT orderedPizzaID FROM orderedPizza WHERE orderID=$orderID AND pizzaID=$pizzaID AND status=\"Im Ofen\"
-                ORDER BY orderedPizzaID ASC LIMIT 1";
-            }
-            $record = $this->connection->query($sqlSelect);
-
-            if ($record->num_rows == 1) {
-                $row = $record->fetch_assoc();
-                $orderedPizzaID = $row["orderedPizzaID"];
-                $record->free();
-            }
-
             // Update orderedPizza in database.
-            $sqlUpdate = "UPDATE orderedPizza SET status=\"$status\" WHERE orderedPizzaID=$orderedPizzaID";
+            $sqlUpdate = "UPDATE `orderedPizza` SET `status`=\"$status\" WHERE `orderedPizzaID`=$orderedPizzaID";
             $this->connection->query($sqlUpdate);
 
+            // Redirect on Baecker.php.
             header('Location: http://localhost/Baecker.php');
         }
     }

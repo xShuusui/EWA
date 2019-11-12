@@ -107,6 +107,8 @@ echo <<< HTML
 
                 <!-- Text inputs. -->
                 <div>
+                    <p>Ihre Name:</p>
+                    <input type="text" name="fullName" required />
                     <p>Ihre Adresse:</p>
                     <input type="text" name="address" required />
                 </div>
@@ -152,16 +154,17 @@ HTML;
         parent::processReceivedData();
 
         // Check if POST variables are declared.
-        if (isset($_POST["address"]) && isset($_POST["cart"])) {
+        if (isset($_POST["fullName"]) && isset($_POST["address"]) && isset($_POST["cart"])) {
 
             $this->checkDatabaseConnection();
 
             // Save POST data into variables and mask special characters.
+            $fullName = $this->connection->real_escape_string($_POST["fullName"]);
             $address = $this->connection->real_escape_string($_POST["address"]);
             $cart = $_POST["cart"];
 
             // Insert order in database.
-            $sqlInsert = "INSERT INTO `order` SET address=\"$address\"";
+            $sqlInsert = "INSERT INTO `order` SET fullName=\"$fullName\", address=\"$address\"";
             $this->connection->query($sqlInsert);
 
             // Get orderID from the latest insert.
@@ -169,20 +172,10 @@ HTML;
 
             // Iterate through cart array.
             for ($i = 0; $i < count($cart); $i++) {
-                $currentPizza = $this->connection->real_escape_string($cart[$i]);
-
-                // Select pizzaID from database.
-                $sqlSelect = "SELECT pizzaID FROM menu WHERE pizzaName=\"$currentPizza\"";
-                $record = $this->connection->query($sqlSelect);
-
-                if ($record->num_rows == 1) {
-                    $row = $record->fetch_assoc();
-                    $pizzaID = $row["pizzaID"];
-                    $record->free();
-                }
+                $currentPizzaName = $this->connection->real_escape_string($cart[$i]);
 
                 // Insert orderedPizza in database.
-                $sqlInsert = "INSERT INTO orderedPizza SET orderID=$orderID, pizzaID=$pizzaID, status=\"Bestellt\"";
+                $sqlInsert = "INSERT INTO orderedPizza SET orderID=$orderID, pizzaName=\"$currentPizzaName\", status=\"Bestellt\"";
                 $this->connection->query($sqlInsert);
             }
             header('Location: http://localhost/Bestellung.php');
