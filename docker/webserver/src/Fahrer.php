@@ -43,7 +43,7 @@ class Fahrer extends Page{
      */
     protected function addAdditionalMeta() {
 echo <<< HTML
-    <meta http-equiv="refresh" content="5" >\n
+    <!--<meta http-equiv="refresh" content="5" >\n-->
 HTML;
                 }
 
@@ -54,19 +54,26 @@ HTML;
      * @return none
      */
     protected function getViewData(){
-        // to do: fetch data for this view from the database
+        
         $this->checkDatabaseConnection();
 
+        $sqlSelect = "SELECT orderedPizza.*, order.fullName, order.address, menu.pizzaPrice FROM orderedPizza NATURAL JOIN menu NATURAL JOIN `order` WHERE EXISTS
+            (SELECT orderID, status FROM orderedPizza WHERE orderedPizza.orderID=order.orderID 
+            AND (orderedPizza.status='Fertig' OR orderedPizza.status='Unterwegs'))";
+        $recordSet = $this->connection->query($sqlSelect);
+
+/*
         // Select data from database.
         $sqlSelect = "SELECT orderedPizza.*, order.fullName, order.address, menu.pizzaPrice FROM `orderedPizza` NATURAL JOIN `order` NATURAL JOIN `menu`
         WHERE `status`='Fertig' OR `status`='Unterwegs'";
-        $recordSet = $this->connection->query($sqlSelect);
-
+        //$recordSet = $this->connection->query($sqlSelect);
+*/
         if ($recordSet->num_rows > 0) {
 
             $orderedPizzas = array();
             $latestOrderID = null;
             while ($row = $recordSet->fetch_assoc()) {
+
                 // Save IDs into variables and mask special characters.
                 $currentOrderID = htmlspecialchars($row["orderID"]);
                 $orderedPizzaID = htmlspecialchars($row["orderedPizzaID"]);
@@ -139,47 +146,37 @@ echo <<< HTML
         <h2>Abholbereite Lieferungen:</h2>
         <div>
 HTML;
+            // Iterate through orders[].
             foreach ($this->orders as $orderID => $orderedPizzas) {
-                
-                $checkOrderFinished = 0;
-                foreach ($orderedPizzas as $orderedPizzaID => $pizza) {
-                    if($pizza["status"] == "Fertig" || $pizza["status"] == "Unterwegs")
-                        $checkOrderFinished++;
-                }
-
-
-                print_r($orderedPizzas);
-                if($checkOrderFinished == count($this->orders[$orderID])){
 echo <<< HTML
-                <p><strong>Bestellnummer: $orderID</strong></p>
+                <div>
+                    <p><strong>Bestellnummer: $orderID</strong></p>
 HTML;
-                $tmpPizzaNames;
-                $tmpPizzaStatus = array();
+                // Iterate through orderedPizzas[] and get variables.
+                $tmpPizzaNames = "";
                 $tmpTotalPrice = 0;
                 foreach ($orderedPizzas as $orderedPizzaID => $pizza) {
                     $tmpPizzaNames = $tmpPizzaNames . $pizza["pizzaName"] . "; ";
                     $tmpPizzaStatus[] = $pizza["status"];
                     $tmpTotalPrice += $pizza["pizzaPrice"]; 
                 }
-
                 $tmpAddress = $this->customersData[$orderID]["address"];
                 $tmpFullName = $this->customersData[$orderID]["fullName"];
-
 echo <<< HTML
-                <p>Kundenname: $tmpFullName</p>
-                <p>Kundenadresse: $tmpAddress</p>
-                <p>Bestellung: $tmpPizzaNames</p>
-                <p>Gesamtpreis: $tmpTotalPrice</p>
-
-                <form action="./Fahrer.php" method="POST">
-                    <select name="status" size="2">
-                        <option value="Unterwegs">Unterwegs</option>
-                        <option value="Geliefert">Geliefert</option>
-                    </select>
-                    <input type="Submit" value="Übernehmen">
-                </form>
+                    <p>Kundenname: $tmpFullName</p>
+                    <p>Kundenadresse: $tmpAddress</p>
+                    <p>Bestellung: $tmpPizzaNames</p>
+                    <p>Gesamtpreis: $tmpTotalPrice</p>
+                    <form action="./Fahrer.php" method="POST">
+                        <select name="status" size="2">
+                            <option value="Unterwegs">Unterwegs</option>
+                            <option value="Geliefert">Geliefert</option>
+                        </select>
+                        <input type="Submit" value="Übernehmen">
+                    </form>
+                </div>
+                <p>--------------------------------------------------</p>\n
 HTML;
-            }
         }
 echo <<< HTML
         </div>
