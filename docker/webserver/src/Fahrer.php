@@ -10,14 +10,13 @@ require_once './Page.php';
  */
 class Fahrer extends Page{
 
-    //Contains all orders
-    protected $allOrders = array();
+    /** Contains all orders and orderedPizzas. */
+    protected $orders = array();
 
-    //Contains all ordered pizzas
-    protected $allOrderedPizzas = array();
+    //Contains all the customer data
+    protected $customersData = array();
 
-    //Contains menu
-    protected $menu = array();
+
 
     /**
      * Creates a database connection.
@@ -58,56 +57,74 @@ HTML;
         // to do: fetch data for this view from the database
         $this->checkDatabaseConnection();
 
-        //Gets orders from database and stores them in $allOrders
-        $this->getOrders();
+        // Select data from database.
+        $sqlSelect = "SELECT orderedPizza.*, order.fullName, order.address, menu.pizzaPrice FROM `orderedPizza` NATURAL JOIN `order` NATURAL JOIN `menu`
+        WHERE `status`='Fertig' OR `status`='Unterwegs'";
+        $recordSet = $this->connection->query($sqlSelect);
 
-        //Gets ordered pizzas from DB and stores them in $allOrderedPizzas
-        $this->getOrderedPizzas();
+        if ($recordSet->num_rows > 0) {
 
-        //Gets all pizzas from menu
-        $this->getMenu();
-    }
+            $orderedPizzas = array();
+            $latestOrderID = null;
+            while ($row = $recordSet->fetch_assoc()) {
+                // Save IDs into variables and mask special characters.
+                $currentOrderID = htmlspecialchars($row["orderID"]);
+                $orderedPizzaID = htmlspecialchars($row["orderedPizzaID"]);
 
-    protected function getMenu(){
-        $sql = "SELECT * from menu;";
-        $recordSet = $this->connection->query($sql);
+                // Check if orderIDs are the same.
+                if ($latestOrderID === $currentOrderID || $latestOrderID === null) {
 
-        if($recordSet->num_rows > 0){
-            while($row = $recordSet->fetch_assoc()){
-                $this->menu[count($this->menu)] = $row;
+                    // Create pizza[] and mask special characters.
+                    $pizza = array();
+                    $pizza["pizzaName"] = htmlspecialchars($row["pizzaName"]);
+                    $pizza["status"] = htmlspecialchars($row["status"]);
+                    $pizza["pizzaPrice"] = htmlspecialchars($row["pizzaPrice"]);
+
+                    //Create data[] and mask special chars, is value for customerData[]
+                    $data = array();
+                    $data["fullName"] = htmlspecialchars($row["fullName"]);
+                    $data["address"] = htmlspecialchars($row["address"]);
+
+                    // Push pizza[] in orderedPizzas[].
+                    $orderedPizzas[$orderedPizzaID] = $pizza;
+
+                    // Save currentOrderID.
+                    $latestOrderID = $currentOrderID;
+
+                // If orderIDs different.
+                } else {
+
+                    // Create pizza[] and mask special characters.
+                    $pizza = array();
+                    $pizza["pizzaName"] = htmlspecialchars($row["pizzaName"]);
+                    $pizza["status"] = htmlspecialchars($row["status"]);
+                    $pizza["pizzaPrice"] = htmlspecialchars($row["pizzaPrice"]);
+
+                    //Create data[] and mask special chars, is value for customerData[]
+                    $data = array();
+                    $data["fullName"] = htmlspecialchars($row["fullName"]);
+                    $data["address"] = htmlspecialchars($row["address"]);
+
+                    // Reset orderedPizzas[] and push pizza[] in orderedPizzas[].
+                    $orderedPizzas = array();
+                    $orderedPizzas[$orderedPizzaID] = $pizza;
+
+                    // Save currentOrderID.
+                    $latestOrderID = $currentOrderID;
+                }
+
+                //Push data[] into customerData[]
+                $this->customersData[$currentOrderID] = $data;
+
+                // Push orderedPizzas[] in orders[].
+                $this->orders[$latestOrderID] = $orderedPizzas;
             }
             $recordSet->free();
+            //print_r($this->customersData);
+            //print_r($this->orders);
         } else {
             echo mysqli_error($this->connection);
-        }   
-    }
-
-    protected function getOrderedPizzas(){
-        $sql = "SELECT * from orderedPizza;";
-        $recordSet = $this->connection->query($sql);
-
-        if($recordSet->num_rows > 0){
-            while($row = $recordSet->fetch_assoc()){
-                $this->allOrderedPizzas[count($this->allOrderedPizzas)] = $row;
-            }
-            $recordSet->free();
-        } else {
-            echo mysqli_error($this->connection);
-        }   
-    }
-
-    protected function getOrders(){
-        $sql = "SELECT * from `order`;";
-        $recordSet = $this->connection->query($sql);
-
-        if($recordSet->num_rows > 0){
-            while($row = $recordSet->fetch_assoc()){
-                $this->allOrders[count($this->allOrders)] = $row;
-            }
-            $recordSet->free();
-        } else {
-            echo mysqli_error($this->connection);
-        }   
+        }
     }
 
     /**
@@ -120,93 +137,50 @@ echo <<< HTML
     <h1>Fahrer</h1>
     <section>
         <h2>Abholbereite Lieferungen:</h2>
-        <div>\n
+        <div>
 HTML;
-        //First for-loop to go over all orders
-        //All variables and Arrays in first-loop are for the respective order
-        for($i = 0; $i < count($this->allOrders); $i++){
-            //Get current orderID and orderAddress
-            $orderID = $this->allOrders[$i]['orderID'];
-            $orderAddress = $this->allOrders[$i]['address'];
-
-            //Array of all pizzaIDs
-            $orderPizzaIDs = array();
-            //Array of the status of all ordered pizzas
-            $orderPizzaStates = array();
-            //Array of orderedPizzaIDs
-            $orderedPizzaIDs = array();
-
-            //Second for-loop to go over all orderedPizzas
-            for($j = 0; $j < count($this->allOrderedPizzas); $j++){
-
-                //Only get pizzas from current order
-                if($this->allOrderedPizzas[$j]['orderID'] == $orderID){
-
-                    //Pushes pizzaID to end of array
-                    array_push($orderPizzaIDs, $this->allOrderedPizzas[$j]['pizzaID']);
-                    //Pushes pizza status to end of array
-                    array_push($orderPizzaStates, $this->allOrderedPizzas[$j]['status']);
-
-                    //Push orderedPizzaID into array
-                    array_push($orderedPizzaIDs, $this->allOrderedPizzas[$j]['orderedPizzaID']);
+            foreach ($this->orders as $orderID => $orderedPizzas) {
+                
+                $checkOrderFinished = 0;
+                foreach ($orderedPizzas as $orderedPizzaID => $pizza) {
+                    if($pizza["status"] == "Fertig" || $pizza["status"] == "Unterwegs")
+                        $checkOrderFinished++;
                 }
-            }
 
-            //Total price of order
-            $totalOrderPrice = 0;
-            //Array of all pizza names
-            $orderPizzaNames = array();
 
-            //Third for-loop to go over menu and get prices of pizzas
-            for($k = 0; $k < count($orderPizzaIDs); $k++){
-
-                //Get pizzaPrice of current pizzaID and add to $totalOrderPrice
-                $totalOrderPrice += $this->menu[$orderPizzaIDs[$k] - 1]['pizzaPrice'];
-                //Get the pizzaNames and push them at end of array
-                array_push($orderPizzaNames,$this->menu[$orderPizzaIDs[$k] - 1]['pizzaName']);
-            }
-
-            //Variable to check if all pizzas are finished
-            $areAllPizzasFinished = 0;
-            foreach($orderPizzaStates as $currentStatus){
-                if($currentStatus == "Fertig" || $currentStatus == "Unterwegs")
-                    $areAllPizzasFinished += 1;
-            }
-
-            //Checks if complete order is finished, and prints it
-            if($areAllPizzasFinished == count($orderPizzaStates)){
+                print_r($orderedPizzas);
+                if($checkOrderFinished == count($this->orders[$orderID])){
 echo <<< HTML
-            <div>
+                <p><strong>Bestellnummer: $orderID</strong></p>
+HTML;
+                $tmpPizzaNames;
+                $tmpPizzaStatus = array();
+                $tmpTotalPrice = 0;
+                foreach ($orderedPizzas as $orderedPizzaID => $pizza) {
+                    $tmpPizzaNames = $tmpPizzaNames . $pizza["pizzaName"] . "; ";
+                    $tmpPizzaStatus[] = $pizza["status"];
+                    $tmpTotalPrice += $pizza["pizzaPrice"]; 
+                }
+
+                $tmpAddress = $this->customersData[$orderID]["address"];
+                $tmpFullName = $this->customersData[$orderID]["fullName"];
+
+echo <<< HTML
+                <p>Kundenname: $tmpFullName</p>
+                <p>Kundenadresse: $tmpAddress</p>
+                <p>Bestellung: $tmpPizzaNames</p>
+                <p>Gesamtpreis: $tmpTotalPrice</p>
+
                 <form action="./Fahrer.php" method="POST">
-                    <p>Bestellung $orderID:</p>
-                    <p>$orderAddress,&emsp; $totalOrderPrice €</p>\n
-HTML;
-                    for($l = 0; $l < count($orderPizzaNames); $l++){
-echo <<< HTML
-                    <span>$orderPizzaNames[$l];</span>\n
-HTML;
-                    }
-echo <<< HTML
-                    <br>
-                    <select name="pizzaStatus" size="1">
+                    <select name="status" size="2">
                         <option value="Unterwegs">Unterwegs</option>
                         <option value="Geliefert">Geliefert</option>
                     </select>
-                    <input type="submit" value="Übernehmen" />\n
-HTML;
-                    for($m = 0; $m < count($orderedPizzaIDs); $m++){
-echo <<< HTML
-                    <input type="hidden" name="pizzaIDsOfOrder[$m]" value="$orderedPizzaIDs[$m]"/>\n
-HTML;
-                    }
-echo <<< HTML
+                    <input type="Submit" value="Übernehmen">
                 </form>
-                <p>---------------</p>
-            </div>\n
 HTML;
             }
         }
-
 echo <<< HTML
         </div>
     </section>
