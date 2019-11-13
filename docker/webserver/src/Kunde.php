@@ -10,14 +10,8 @@ require_once './Page.php';
  */
 class Kunde extends Page {
 
-    //Contains all orders
-    protected $allOrders = array();
-
-    //Contains all ordered pizzas
-    protected $allOrderedPizzas = array();
-
-    //Contains menu
-    protected $menu = array();
+     /** Contains all orders and orderedPizzas. */
+     protected $orders = array();
     
     /**
      * Creates a database connection.
@@ -49,56 +43,58 @@ class Kunde extends Page {
         // to do: fetch data for this view from the database
         $this->checkDatabaseConnection();
 
-        //Gets orders from database and stores them in $allOrders
-        $this->getOrders();
+        // Select data from database.
+        $sqlSelect = "SELECT * FROM `orderedPizza`";
+        $recordSet = $this->connection->query($sqlSelect);
 
-        //Gets ordered pizzas from DB and stores them in $allOrderedPizzas
-        $this->getOrderedPizzas();
+        if ($recordSet->num_rows > 0) {
 
-        //Gets all pizzas from menu
-        $this->getMenu();
-    }
+            $orderedPizzas = array();
+            $latestOrderID = null;
+            while ($row = $recordSet->fetch_assoc()) {
 
-    protected function getMenu(){
-        $sql = "SELECT * from menu;";
-        $recordSet = $this->connection->query($sql);
+                // Save IDs into variables and mask special characters.
+                $currentOrderID = htmlspecialchars($row["orderID"]);
+                $orderedPizzaID = htmlspecialchars($row["orderedPizzaID"]);
 
-        if($recordSet->num_rows > 0){
-            while($row = $recordSet->fetch_assoc()){
-                $this->menu[count($this->menu)] = $row;
+                // Check if orderIDs are the same.
+                if ($latestOrderID === $currentOrderID || $latestOrderID === null) {
+
+                    // Create pizza[] and mask special characters.
+                    $pizza = array();
+                    $pizza["pizzaName"] = htmlspecialchars($row["pizzaName"]);
+                    $pizza["status"] = htmlspecialchars($row["status"]);
+
+                    // Push pizza[] in orderedPizzas[].
+                    $orderedPizzas[$orderedPizzaID] = $pizza;
+
+                    // Save currentOrderID.
+                    $latestOrderID = $currentOrderID;
+
+                // If orderIDs different.
+                } else {
+
+                    // Create pizza[] and mask special characters.
+                    $pizza = array();
+                    $pizza["pizzaName"] = htmlspecialchars($row["pizzaName"]);
+                    $pizza["status"] = htmlspecialchars($row["status"]);
+
+                    // Reset orderedPizzas[] and push pizza[] in orderedPizzas[].
+                    $orderedPizzas = array();
+                    $orderedPizzas[$orderedPizzaID] = $pizza;
+
+                    // Save currentOrderID.
+                    $latestOrderID = $currentOrderID;
+                }
+
+                // Push orderedPizzas[] in orders[].
+                $this->orders[$latestOrderID] = $orderedPizzas;
             }
             $recordSet->free();
+            //print_r($this->orders);
         } else {
             echo mysqli_error($this->connection);
-        }   
-    }
-
-    protected function getOrderedPizzas(){
-        $sql = "SELECT * from orderedPizza;";
-        $recordSet = $this->connection->query($sql);
-
-        if($recordSet->num_rows > 0){
-            while($row = $recordSet->fetch_assoc()){
-                $this->allOrderedPizzas[count($this->allOrderedPizzas)] = $row;
-            }
-            $recordSet->free();
-        } else {
-            echo mysqli_error($this->connection);
-        }   
-    }
-
-    protected function getOrders(){
-        $sql = "SELECT * from `order`;";
-        $recordSet = $this->connection->query($sql);
-
-        if($recordSet->num_rows > 0){
-            while($row = $recordSet->fetch_assoc()){
-                $this->allOrders[count($this->allOrders)] = $row;
-            }
-            $recordSet->free();
-        } else {
-            echo mysqli_error($this->connection);
-        }   
+        }
     }
 
     /**
@@ -112,33 +108,20 @@ echo <<< HTML
     <section>
         <h2>Kundenbestellungen:</h2>\n
 HTML;
-        //First for-loop to go over all orders
-        for($i = 0; $i < count($this->allOrders); $i++){
-            //Get current orderID
-            $tmpOrderID = $this->allOrders[$i]['orderID'];
+        foreach ($this->orders as $orderID => $orderedPizzas) {
 echo <<< HTML
-        <div>
-            <p>Bestellnummer: $tmpOrderID</p>\n
+        <div>    
+            <p>Bestellnummer : $orderID</p>\n
 HTML;
-        //Second for-loop to go over all pizzas in the current order
-        for($k = 0; $k < count($this->allOrderedPizzas); $k++){
-            //Get all infos of ordered pizzas
-            $tmpPizzaID = $this->allOrderedPizzas[$k]['pizzaID'];
-            $tmpPizzaStatus = $this->allOrderedPizzas[$k]['status'];
-            $tmpPizzaOrderID = $this->allOrderedPizzas[$k]['orderID'];
-            
-            //Get name of ordered pizzas
-            $tmpPizzaName = $this->menu[$tmpPizzaID-1]['pizzaName'];
-            
-            //Only print pizza when from current order
-            if($tmpOrderID == $tmpPizzaOrderID){
+            foreach ($orderedPizzas as $orderedPizzaID => $pizza) {
+                $pizzaName = $pizza['pizzaName'];
+                $pizzaStatus = $pizza['status'];
 echo <<< HTML
-            <p>$tmpPizzaName : $tmpPizzaStatus</p>\n
+            <p>$pizzaName : $pizzaStatus</p>\n
 HTML;
             }
-        }
 echo <<< HTML
-            <p>---------------</p>
+            <p>--------------------------------------------------</p>
         </div>\n
 HTML;
         }
