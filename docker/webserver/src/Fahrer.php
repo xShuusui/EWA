@@ -3,7 +3,8 @@
 require_once './Page.php';
 
 /**
- * TODO: Beschreibung Fahrer.php
+ * Shows orders with their baked pizzas and their current status,
+ * the driver can change the order status.
  * 
  * @author   Julian Segeth
  * @author   Bican Gül 
@@ -13,10 +14,8 @@ class Fahrer extends Page{
     /** Contains all orders and orderedPizzas. */
     protected $orders = array();
 
-    //Contains all the customer data
+    /** Contains all customer data. */
     protected $customersData = array();
-
-
 
     /**
      * Creates a database connection.
@@ -45,7 +44,7 @@ class Fahrer extends Page{
 echo <<< HTML
     <!--<meta http-equiv="refresh" content="5" >\n-->
 HTML;
-                }
+    }
 
     /**
      * Fetch all data that is necessary for later output.
@@ -57,17 +56,17 @@ HTML;
         
         $this->checkDatabaseConnection();
 
-        $sqlSelect = "SELECT orderedPizza.*, order.fullName, order.address, menu.pizzaPrice FROM orderedPizza NATURAL JOIN menu NATURAL JOIN `order` WHERE EXISTS
-            (SELECT orderID, status FROM orderedPizza WHERE orderedPizza.orderID=order.orderID 
-            AND (orderedPizza.status='Fertig' OR orderedPizza.status='Unterwegs'))";
+        // Select data from database.
+        $sqlSelect = "SELECT `orderedPizza`.*, `order`.fullName, `order`.address, `menu`.pizzaPrice FROM `orderedPizza` 
+            INNER JOIN `menu` ON `menu`.pizzaName=`orderedPizza`.pizzaName
+            INNER JOIN `order` ON `order`.orderID=`orderedPizza`.orderID
+            WHERE NOT EXISTS 
+                (SELECT * FROM `orderedPizza` WHERE `orderedPizza`.orderID=`order`.orderID 
+                AND (`status`='Bestellt' OR `status`='Im Ofen' OR `status`='Geliefert')) 
+            ORDER BY `orderedPizza`.orderID";
+
         $recordSet = $this->connection->query($sqlSelect);
 
-/*
-        // Select data from database.
-        $sqlSelect = "SELECT orderedPizza.*, order.fullName, order.address, menu.pizzaPrice FROM `orderedPizza` NATURAL JOIN `order` NATURAL JOIN `menu`
-        WHERE `status`='Fertig' OR `status`='Unterwegs'";
-        //$recordSet = $this->connection->query($sqlSelect);
-*/
         if ($recordSet->num_rows > 0) {
 
             $orderedPizzas = array();
@@ -78,7 +77,7 @@ HTML;
                 $currentOrderID = htmlspecialchars($row["orderID"]);
                 $orderedPizzaID = htmlspecialchars($row["orderedPizzaID"]);
 
-                // Check if orderIDs are the same.
+                // Check if orderIDs are the same and get pizza data.
                 if ($latestOrderID === $currentOrderID || $latestOrderID === null) {
 
                     // Create pizza[] and mask special characters.
@@ -87,16 +86,8 @@ HTML;
                     $pizza["status"] = htmlspecialchars($row["status"]);
                     $pizza["pizzaPrice"] = htmlspecialchars($row["pizzaPrice"]);
 
-                    //Create data[] and mask special chars, is value for customerData[]
-                    $data = array();
-                    $data["fullName"] = htmlspecialchars($row["fullName"]);
-                    $data["address"] = htmlspecialchars($row["address"]);
-
                     // Push pizza[] in orderedPizzas[].
                     $orderedPizzas[$orderedPizzaID] = $pizza;
-
-                    // Save currentOrderID.
-                    $latestOrderID = $currentOrderID;
 
                 // If orderIDs different.
                 } else {
@@ -107,21 +98,25 @@ HTML;
                     $pizza["status"] = htmlspecialchars($row["status"]);
                     $pizza["pizzaPrice"] = htmlspecialchars($row["pizzaPrice"]);
 
-                    //Create data[] and mask special chars, is value for customerData[]
+                    // Reset orderedPizzas[] and push pizza[] in orderedPizzas[].
+                    $orderedPizzas = array();
+                    $orderedPizzas[$orderedPizzaID] = $pizza;
+                }
+                
+                // Check if orderIDs are different and get customer data.
+                if ($latestOrderID != $currentOrderID || $latestOrderID === null) {
+
+                    // Create data[] and mask special characters.
                     $data = array();
                     $data["fullName"] = htmlspecialchars($row["fullName"]);
                     $data["address"] = htmlspecialchars($row["address"]);
 
-                    // Reset orderedPizzas[] and push pizza[] in orderedPizzas[].
-                    $orderedPizzas = array();
-                    $orderedPizzas[$orderedPizzaID] = $pizza;
-
-                    // Save currentOrderID.
-                    $latestOrderID = $currentOrderID;
+                    // Push data[] into customerData[].
+                    $this->customersData[$currentOrderID] = $data;
                 }
 
-                //Push data[] into customerData[]
-                $this->customersData[$currentOrderID] = $data;
+                // Save currentOrderID.
+                $latestOrderID = $currentOrderID;
 
                 // Push orderedPizzas[] in orders[].
                 $this->orders[$latestOrderID] = $orderedPizzas;
@@ -157,7 +152,7 @@ HTML;
                 $tmpTotalPrice = 0;
                 foreach ($orderedPizzas as $orderedPizzaID => $pizza) {
                     $tmpPizzaNames = $tmpPizzaNames . $pizza["pizzaName"] . "; ";
-                    $tmpPizzaStatus[] = $pizza["status"];
+                    //$tmpPizzaStatus[] = $pizza["status"];
                     $tmpTotalPrice += $pizza["pizzaPrice"]; 
                 }
                 $tmpAddress = $this->customersData[$orderID]["address"];
@@ -167,12 +162,14 @@ echo <<< HTML
                     <p>Kundenadresse: $tmpAddress</p>
                     <p>Bestellung: $tmpPizzaNames</p>
                     <p>Gesamtpreis: $tmpTotalPrice</p>
+
                     <form action="./Fahrer.php" method="POST">
+                        <input type="hidden" name="orderID" value="$orderID"/>
                         <select name="status" size="2">
                             <option value="Unterwegs">Unterwegs</option>
                             <option value="Geliefert">Geliefert</option>
                         </select>
-                        <input type="Submit" value="Übernehmen">
+                        <input type="Submit" value="Übernehmen"/>
                     </form>
                 </div>
                 <p>--------------------------------------------------</p>\n
@@ -212,20 +209,17 @@ HTML;
 
         parent::processReceivedData();
 
-        if(isset($_POST["pizzaIDsOfOrder"]) && isset($_POST["pizzaStatus"])){
+        // Check if POST variables are declared.
+        if (isset($_POST["orderID"]) && isset($_POST["status"])) {
 
-            //Save POST-Data into variables and mask special characters.
-            $pizzaStateOfPost = $this->connection->real_escape_string($_POST["pizzaStatus"]);
-            $pizzaIDsOfPost = array();
-            $pizzaIDsOfPost = $_POST['pizzaIDsOfOrder'];
+            // Save POST data into variables and mask special characters.
+            $orderID = $this->connection->real_escape_string($_POST["orderID"]);
+            $status = $this->connection->real_escape_string($_POST["status"]);
+        
+            // TODO: UPDATE in Database.
 
-            //Save new states in respective orderedPizzas
-            for($i = 0; $i < count($pizzaIDsOfPost); $i++){
-                $tmpPizzaID = $this->connection->real_escape_string($pizzaIDsOfPost[$i]);
-                $sqlUpdate = "UPDATE orderedPizza SET status=\"$pizzaStateOfPost\" WHERE orderedPizzaID=$tmpPizzaID";
-                $this->connection->query($sqlUpdate);
-            }
-
+            
+            // Redirect on Fahrer.php.
             header('Location: http://localhost/Fahrer.php');
         }
     }

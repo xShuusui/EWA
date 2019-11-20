@@ -3,7 +3,7 @@
 require_once './Page.php';
 
 /**
- * Shows orders and the corresponding pizzas with their current status,
+ * Shows customer orders and the corresponding pizzas with their current status,
  * the baker can change the pizza status.
  * 
  * @author   Julian Segeth
@@ -134,7 +134,7 @@ echo <<< HTML
                 <form action="./Baecker.php" method="POST">
                     <input type="hidden" name="orderedPizzaID" value="$orderedPizzaID" />
                     <select name="status" size="3">
-                        <option value="Bestellt" selected>Bestellt</option>
+                        <option value="Bestellt">Bestellt</option>
                         <option value="Im Ofen">Im Ofen</option>
                         <option value="Fertig">Fertig</option>
                     </select>
