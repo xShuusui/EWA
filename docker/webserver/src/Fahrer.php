@@ -139,13 +139,13 @@ echo <<< HTML
     <h1>Fahrer</h1>
     <section>
         <h2>Abholbereite Lieferungen:</h2>
-        <div>
+        <div>\n
 HTML;
             // Iterate through orders[].
             foreach ($this->orders as $orderID => $orderedPizzas) {
 echo <<< HTML
                 <div>
-                    <p><strong>Bestellnummer: $orderID</strong></p>
+                    <p><strong>Bestellnummer: $orderID</strong></p>\n
 HTML;
                 // Iterate through orderedPizzas[] and get variables.
                 $tmpPizzaNames = "";
@@ -215,8 +215,11 @@ HTML;
             // Save POST data into variables and mask special characters.
             $orderID = $this->connection->real_escape_string($_POST["orderID"]);
             $status = $this->connection->real_escape_string($_POST["status"]);
+            print_r($orderID,$status);
         
-            // TODO: UPDATE in Database.
+            $sqlUpdate = "UPDATE orderedPizza SET `status` = \"$status\" WHERE `orderID` = \"$orderID\"";
+
+            $this->connection->query($sqlUpdate);
 
             
             // Redirect on Fahrer.php.
