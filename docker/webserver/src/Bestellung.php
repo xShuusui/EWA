@@ -175,6 +175,10 @@ HTML;
             // Get orderID from the latest insert.
             $orderID = $this->connection->insert_id;
 
+            session_start();
+            $_SESSION["orderID"] = "$orderID";
+            //print_r($_SESSION);
+
             // Iterate through cart[] and mask special characters.
             for ($i = 0; $i < count($cart); $i++) {
                 $currentPizzaName = $this->connection->real_escape_string($cart[$i]);

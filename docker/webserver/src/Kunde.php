@@ -43,57 +43,63 @@ class Kunde extends Page {
         // to do: fetch data for this view from the database
         $this->checkDatabaseConnection();
 
-        // Select data from database.
-        $sqlSelect = "SELECT * FROM `orderedPizza`";
-        $recordSet = $this->connection->query($sqlSelect);
+        if(isset($_SESSION["orderID"])){
+            $tmpOrderID = $_SESSION["orderID"];
+            
+            // Select data from database.
+            $sqlSelect = "SELECT * FROM `orderedPizza` WHERE `orderID` = $tmpOrderID";
+            $recordSet = $this->connection->query($sqlSelect);
 
-        if ($recordSet->num_rows > 0) {
+            if ($recordSet->num_rows > 0) {
 
-            $orderedPizzas = array();
-            $latestOrderID = null;
-            while ($row = $recordSet->fetch_assoc()) {
+                $orderedPizzas = array();
+                $latestOrderID = null;
+                while ($row = $recordSet->fetch_assoc()) {
 
-                // Save IDs into variables and mask special characters.
-                $currentOrderID = htmlspecialchars($row["orderID"]);
-                $orderedPizzaID = htmlspecialchars($row["orderedPizzaID"]);
+                    // Save IDs into variables and mask special characters.
+                    $currentOrderID = htmlspecialchars($row["orderID"]);
+                    $orderedPizzaID = htmlspecialchars($row["orderedPizzaID"]);
 
-                // Check if orderIDs are the same.
-                if ($latestOrderID === $currentOrderID || $latestOrderID === null) {
+                    // Check if orderIDs are the same.
+                    if ($latestOrderID === $currentOrderID || $latestOrderID === null) {
 
-                    // Create pizza[] and mask special characters.
-                    $pizza = array();
-                    $pizza["pizzaName"] = htmlspecialchars($row["pizzaName"]);
-                    $pizza["status"] = htmlspecialchars($row["status"]);
+                        // Create pizza[] and mask special characters.
+                        $pizza = array();
+                        $pizza["pizzaName"] = htmlspecialchars($row["pizzaName"]);
+                        $pizza["status"] = htmlspecialchars($row["status"]);
 
-                    // Push pizza[] in orderedPizzas[].
-                    $orderedPizzas[$orderedPizzaID] = $pizza;
+                        // Push pizza[] in orderedPizzas[].
+                        $orderedPizzas[$orderedPizzaID] = $pizza;
 
-                    // Save currentOrderID.
-                    $latestOrderID = $currentOrderID;
+                        // Save currentOrderID.
+                        $latestOrderID = $currentOrderID;
 
-                // If orderIDs different.
-                } else {
+                    // If orderIDs different.
+                    } else {
 
-                    // Create pizza[] and mask special characters.
-                    $pizza = array();
-                    $pizza["pizzaName"] = htmlspecialchars($row["pizzaName"]);
-                    $pizza["status"] = htmlspecialchars($row["status"]);
+                        // Create pizza[] and mask special characters.
+                        $pizza = array();
+                        $pizza["pizzaName"] = htmlspecialchars($row["pizzaName"]);
+                        $pizza["status"] = htmlspecialchars($row["status"]);
 
-                    // Reset orderedPizzas[] and push pizza[] in orderedPizzas[].
-                    $orderedPizzas = array();
-                    $orderedPizzas[$orderedPizzaID] = $pizza;
+                        // Reset orderedPizzas[] and push pizza[] in orderedPizzas[].
+                        $orderedPizzas = array();
+                        $orderedPizzas[$orderedPizzaID] = $pizza;
 
-                    // Save currentOrderID.
-                    $latestOrderID = $currentOrderID;
+                        // Save currentOrderID.
+                        $latestOrderID = $currentOrderID;
+                    }
+
+                    // Push orderedPizzas[] in orders[].
+                    $this->orders[$latestOrderID] = $orderedPizzas;
                 }
-
-                // Push orderedPizzas[] in orders[].
-                $this->orders[$latestOrderID] = $orderedPizzas;
+                $recordSet->free();
+                //print_r($this->orders);
+            } else {
+                echo mysqli_error($this->connection);
             }
-            $recordSet->free();
-            //print_r($this->orders);
-        } else {
-            echo mysqli_error($this->connection);
+        }else{
+            echo "Error no SESSION!";
         }
     }
 
@@ -149,6 +155,8 @@ HTML;
      */
     protected function generateView() {
 
+        session_start();
+        
         $this->getViewData();
         $this->generatePageHeader("Kunde");
         $this->generatePageBody();
