@@ -43,8 +43,8 @@ class Kunde extends Page {
 
         $this->checkDatabaseConnection();
 
-        if(isset($_SESSION["orderID"])){
-            $tmpOrderID = $_SESSION["orderID"];
+        if (isset($_SESSION["orderID"])) {
+            $tmpOrderID = $this->connection->real_escape_string($_SESSION["orderID"]);
             
             // Select data from database.
             $sqlSelect = "SELECT * FROM `orderedPizza` WHERE `orderID` = $tmpOrderID";
@@ -98,7 +98,7 @@ class Kunde extends Page {
             } else {
                 echo mysqli_error($this->connection);
             }
-        }else{
+        } else {
             echo "Error no SESSION!";
         }
     }
