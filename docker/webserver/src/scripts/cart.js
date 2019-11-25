@@ -49,7 +49,7 @@ function createCart() {
         // Create and append text node to <option> node.
         let textNode = document.createTextNode("Pizza " + pizza.name);
         optionNode.appendChild(textNode);
-      
+
         // Append <option> node to his parent node.
         selectNode.appendChild(optionNode);
     });
@@ -63,10 +63,10 @@ function createCart() {
     }
 
     // Set his attribute nodes.
-    priceNode.setAttribute("data-price-total", cartTotal);
+    priceNode.setAttribute("data-price-total", cartTotal.toFixed(2));
 
     // Create and append text node for <p> node.
-    let textNode = document.createTextNode("Gesamter Preis: " + cartTotal + " €");
+    let textNode = document.createTextNode("Gesamter Preis: " + cartTotal.toFixed(2) + " €");
     priceNode.appendChild(textNode);
 }
 
