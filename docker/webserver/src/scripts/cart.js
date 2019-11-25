@@ -1,6 +1,6 @@
-var cart = [];
-var cartTotal = 0;
-var pizzaID = 0;
+let cart = [];
+let cartTotal = 0;
+let pizzaID = 0;
 
 function addToCart(pizzaName, pizzaPrice) {
     "use strict";
@@ -16,7 +16,7 @@ function createPizza(pizzaName, pizzaPrice) {
     "use strict";
 
     // Create pizza object.
-    var pizza = {
+    let pizza = {
         name : pizzaName,
         price : pizzaPrice,
         id : pizzaID
@@ -30,10 +30,10 @@ function createPizza(pizzaName, pizzaPrice) {
 function createCart() {
     "use strict";
 
-    // Get parent node.
+    // Get <select> node.
     let selectNode = document.getElementById("cart");
 
-    // Remove all child nodes.
+    // Remove all child nodes from <select>.
     while (selectNode.firstChild) {
         selectNode.removeChild(selectNode.firstChild);
     }
@@ -46,7 +46,7 @@ function createCart() {
         optionNode.setAttribute("value", pizza.name);
         optionNode.id = pizza.id;
 
-        // Create and append text node for <option> node.
+        // Create and append text node to <option> node.
         let textNode = document.createTextNode("Pizza " + pizza.name);
         optionNode.appendChild(textNode);
       
@@ -54,15 +54,15 @@ function createCart() {
         selectNode.appendChild(optionNode);
     });
 
-    // Get paragraph-element
-    var priceNode = document.getElementById("totalPrice");
+    // Get <p> node.
+    let priceNode = document.getElementById("totalPrice");
 
-    //Remove all child nodes.
-    while(priceNode.firstChild){
+    // Remove all child nodes from <p>.
+    while (priceNode.firstChild) {
         priceNode.removeChild(priceNode.firstChild);
     }
 
-    // Create <p> node and set his attribute nodes.
+    // Set his attribute nodes.
     priceNode.setAttribute("data-price-total", cartTotal);
 
     // Create and append text node for <p> node.
@@ -73,8 +73,10 @@ function createCart() {
 function selectAllOptions() {
     "use strict";
 
+    // Get <select> node.
     let selectNode = document.getElementById("cart");
 
+    // Set by all <option> node the selected.
     for (let i=0; i < selectNode.options.length; i++) {
         selectNode.options[i].selected = true;
     }
@@ -83,10 +85,12 @@ function selectAllOptions() {
 function deleteSelectedOptions() {
     "use strict";
 
+    // Get <select> node.
     let selectNode = document.getElementById("cart");
 
     for (let i=0; i < selectNode.options.length; i++) {
 
+        // Check if <option> is selected and calculate total price.
         let optionNode = selectNode.options[i];
         if (optionNode.selected == true) {
 
@@ -101,7 +105,8 @@ function deleteSelectedOptions() {
 function deleteAllOptions() {
     "use strict";
 
-    cart = []; // TODO: Change to cart.length = 0 and Test it.
+    // Reset cart[], cartTotal and pizzaID.
+    cart.length = 0;
     cartTotal = 0;
     pizzaID = 0;
 

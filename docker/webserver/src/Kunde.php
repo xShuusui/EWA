@@ -3,16 +3,16 @@
 require_once './Page.php';
 
 /**
- * TODO: Beschreibung Kunde.php
+ * Shows the customers order with the status of his pizzas.
  * 
  * @author   Julian Segeth
  * @author   Bican Gül 
  */
 class Kunde extends Page {
 
-     /** Contains all orders and orderedPizzas. */
-     protected $orders = array();
-    
+    /** Contains all orders and orderedPizzas. */
+    protected $orders = array();
+
     /**
      * Creates a database connection.
      *
@@ -40,7 +40,7 @@ class Kunde extends Page {
      * @return none
      */
     protected function getViewData() {
-        // to do: fetch data for this view from the database
+
         $this->checkDatabaseConnection();
 
         if(isset($_SESSION["orderID"])){
