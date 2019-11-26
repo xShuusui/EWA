@@ -2,31 +2,26 @@ let cart = [];
 let cartTotal = 0;
 let pizzaID = 0;
 
+/* Creates a pizza object. */
+function Pizza(pizzaName, pizzaPrice) {
+    "use strict";
+
+    this.name = pizzaName;
+    this.price = pizzaPrice;
+    this.id = pizzaID++;
+}
+
+/* Add selected pizzas to the cart[] and calculate the total cart price. */
 function addToCart(pizzaName, pizzaPrice) {
     "use strict";
 
-    // Add selected pizzas to the cart array and calculate total cart price.
-    cart.push(createPizza(pizzaName, pizzaPrice));
+    cart.push(new Pizza(pizzaName, pizzaPrice));
     cartTotal += pizzaPrice;
 
     createCart();
 }
 
-function createPizza(pizzaName, pizzaPrice) {
-    "use strict";
-
-    // Create pizza object.
-    let pizza = {
-        name : pizzaName,
-        price : pizzaPrice,
-        id : pizzaID
-    };
-
-    pizzaID++;
-
-    return pizza;
-}
-
+/* Renders the cart with DOM manipulation. */
 function createCart() {
     "use strict";
 
@@ -39,7 +34,7 @@ function createCart() {
     }
 
     // Create cart items.
-    cart.forEach(pizza => {
+    cart.forEach(function(pizza) {
 
         // Create <option> node and set his attribute nodes.
         let optionNode = document.createElement("option");
@@ -70,22 +65,21 @@ function createCart() {
     priceNode.appendChild(textNode);
 }
 
+/* Set by all <option> nodes the selected attribute. */
 function selectAllOptions() {
     "use strict";
 
-    // Get <select> node.
     let selectNode = document.getElementById("cart");
 
-    // Set by all <option> node the selected.
     for (let i=0; i < selectNode.options.length; i++) {
         selectNode.options[i].selected = true;
     }
 }
 
+/* Remove the selected <option> node from the cart[] and recalculate the price. */
 function deleteSelectedOptions() {
     "use strict";
 
-    // Get <select> node.
     let selectNode = document.getElementById("cart");
 
     for (let i=0; i < selectNode.options.length; i++) {
@@ -102,10 +96,10 @@ function deleteSelectedOptions() {
     createCart();
 }
 
+/* Reset cart[], cartTotal and pizzaID. */
 function deleteAllOptions() {
     "use strict";
 
-    // Reset cart[], cartTotal and pizzaID.
     cart.length = 0;
     cartTotal = 0;
     pizzaID = 0;
