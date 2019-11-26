@@ -109,12 +109,11 @@ HTML;
 echo <<< HTML
 \n</head>
 <body>\n
-HTML;
-        $this->generateNavBar();
-    }
+    <header>
+        <img src="./images/logo.png"/>
+        <h1>Pizzeria Tratoria</h1>
+    </header>
 
-    protected function generateNavBar(){
-echo <<< HTML
     <nav>
         <a href="http://localhost/Bestellung.php">Bestellung</a>
         <a href="http://localhost/Baecker.php">Bäcker</a>
@@ -132,6 +131,9 @@ HTML;
     protected function generatePageFooter() {
 
 echo <<< HTML
+    <footer>
+        <p>&copy; 2019 by Julian Segeth & Bican Gül. All Rights Reserved. Praktikum Entwicklung webbasierter Anwendungen.</p>
+    </footer>
 \n</body>
 </html>
 HTML;

@@ -82,8 +82,7 @@ HTML;
      */
     protected function generatePageBody() {
 echo <<< HTML
-    <h1>Bestellung</h1>
-    <section>
+    <section class="menu">
         <h2>Speisekarte</h2>\n
 HTML;    
         foreach ($this->menu as $pizzaName => $pizza) {
@@ -98,7 +97,7 @@ HTML;
         }
 echo <<< HTML
     </section>
-    <section>
+    <section class="cart">
         <h2>Warenkorb</h2>
         <div>
             <form action="./Bestellung.php" method="POST">

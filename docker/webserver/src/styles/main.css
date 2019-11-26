@@ -2,6 +2,7 @@
 /* Global style */
 body * {
     color: black;
+
 }
 
 /* Navigation bar */
@@ -11,12 +12,11 @@ nav {
 
     background-color: #808080;
     text-align: center;   
+
 }
 
 nav a {
-    padding: 10px;
-    padding-left: 30px;
-    padding-right: 30px;
+    padding: 10px 30px;
 
     text-decoration: none;
 }
@@ -24,3 +24,40 @@ nav a {
 nav a:hover {
     background-color: #b3b3b3;
 }
+
+/* Sections */
+.menu {
+   float: left; 
+   margin: 0 2%;
+   width: 45%;
+   text-align: center;
+}
+
+.cart {
+    float: right;
+    margin: 0 2%;
+    width: 45%;
+    text-align: center;
+}
+
+/* Header and footer */
+header {
+    
+}
+
+header img {
+    width: 132px;
+    height: 72px;
+    float: left;
+}
+
+header h1 {
+    font-size: 60px;
+    
+}
+
+footer {
+    clear: both;
+}
+
+
