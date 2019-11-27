@@ -109,16 +109,17 @@ HTML;
 echo <<< HTML
 \n</head>
 <body>\n
-    <header>
-        <img src="./images/logo.png"/>
-        <h1>Pizzeria Tratoria</h1>
-    </header>
 
     <nav>
-        <a href="http://localhost/Bestellung.php">Bestellung</a>
-        <a href="http://localhost/Baecker.php">Bäcker</a>
-        <a href="http://localhost/Fahrer.php">Fahrer</a>
-        <a href="http://localhost/Kunde.php">Kunde</a>
+        <div class="logo">
+            <h4>Pizzeria Void</h4>
+        </div>
+        <ul class="navbar">
+            <li><a href="http://localhost/Bestellung.php">Bestellung</a></li>
+            <li><a href="http://localhost/Baecker.php">Bäcker</a></li>
+            <li><a href="http://localhost/Fahrer.php">Fahrer</a></li>
+            <li><a href="http://localhost/Kunde.php">Kunde</a></li>
+        </ul>
     </nav>\n
 HTML;
     }

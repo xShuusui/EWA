@@ -1,29 +1,47 @@
 
 /* Global style */
-body * {
-    color: black;
-
+* {
+    margin: 0;
+    padding: 0;
+    /*box-sizing: border-box;*/
+    font-family: sans-serif;
 }
+
 
 /* Navigation bar */
 nav {
-    margin: 20px;
-    padding: 10px; 
-
-    background-color: #808080;
-    text-align: center;   
-
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  height: 48px;
+  background-color: rgb(144, 144, 144);
 }
 
-nav a {
-    padding: 10px 30px;
+.logo {
+    color: rgb(245, 245, 245);
+    letter-spacing: 5px;
+    font-size: 24px;
+}
 
+.navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 35%;
+}
+
+.navbar li {
+    list-style: none;
+}
+
+.navbar li a {
+    color: rgb(245, 245, 245);
     text-decoration: none;
+    letter-spacing: 3px;
+    font-size: 18px;
 }
 
-nav a:hover {
-    background-color: #b3b3b3;
-}
 
 /* Sections */
 .menu {
@@ -41,23 +59,21 @@ nav a:hover {
 }
 
 /* Header and footer */
-header {
-    
-}
-
-header img {
-    width: 132px;
-    height: 72px;
-    float: left;
-}
-
-header h1 {
-    font-size: 60px;
-    
-}
-
 footer {
     clear: both;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+    height: 34px;
+    background-color: rgb(144, 144, 144);
+}
+
+footer p {
+    color: rgb(245, 245, 245);
+    letter-spacing: 2px;
 }
 
 
