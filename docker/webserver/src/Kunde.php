@@ -98,8 +98,6 @@ class Kunde extends Page {
             } else {
                 echo mysqli_error($this->connection);
             }
-        } else {
-            echo "Error no SESSION!";
         }
     }
 

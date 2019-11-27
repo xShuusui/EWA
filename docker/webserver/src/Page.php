@@ -114,11 +114,11 @@ echo <<< HTML
         <div class="logo">
             <h4>Pizzeria Void</h4>
         </div>
-        <ul class="navbar">
-            <li><a href="http://localhost/Bestellung.php">Bestellung</a></li>
-            <li><a href="http://localhost/Baecker.php">Bäcker</a></li>
-            <li><a href="http://localhost/Fahrer.php">Fahrer</a></li>
-            <li><a href="http://localhost/Kunde.php">Kunde</a></li>
+        <ul id="navbar" class="navbar">
+            <li><a onclick="active(this)" href="http://localhost/Bestellung.php">Bestellung</a></li>
+            <li><a onclick="active(this)" href="http://localhost/Baecker.php">Bäcker</a></li>
+            <li><a onclick="active(this)" href="http://localhost/Fahrer.php">Fahrer</a></li>
+            <li><a onclick="active(this)" href="http://localhost/Kunde.php">Kunde</a></li>
         </ul>
     </nav>\n
 HTML;
