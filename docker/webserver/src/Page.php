@@ -90,8 +90,6 @@ echo <<< HTML
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <title>$title</title>
-
     <!-- Default Meta Tags. -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />\n
@@ -99,28 +97,31 @@ HTML;
         $this->addAdditionalMeta();
 echo <<< HTML
 
-    <!-- Default CSS files. -->
-    <link rel="stylesheet" type="text/css" href="styles/main.css" />
+    <!-- Title of the page. -->
+    <title>$title</title>
 
-    <!-- Default JS imports.-->
-    <script src="scripts/main.js"></script>\n
+    <!-- Default CSS and JS files. -->
+    <link rel="stylesheet" type="text/css" href="styles/main.css" />\n
 HTML;
         $this->addAdditionalScript();
 echo <<< HTML
-\n</head>
-<body>\n
-
+</head>
+<body>
     <nav>
         <div class="logo">
             <h4>Pizzeria Void</h4>
         </div>
-        <ul id="navbar" class="navbar">
-            <li><a onclick="active(this)" href="http://localhost/Bestellung.php">Bestellung</a></li>
-            <li><a onclick="active(this)" href="http://localhost/Baecker.php">Bäcker</a></li>
-            <li><a onclick="active(this)" href="http://localhost/Fahrer.php">Fahrer</a></li>
-            <li><a onclick="active(this)" href="http://localhost/Kunde.php">Kunde</a></li>
+        <ul id="navbar">
+            <li><a href="http://localhost/Bestellung.php">Bestellung</a></li>
+            <li><a href="http://localhost/Baecker.php">Bäcker</a></li>
+            <li><a href="http://localhost/Fahrer.php">Fahrer</a></li>
+            <li><a href="http://localhost/Kunde.php">Kunde</a></li>
         </ul>
-    </nav>\n
+    </nav>
+
+    <!-- Script for <nav>. -->
+    <script src="scripts/nav.js"></script>
+    \n
 HTML;
     }
 
@@ -135,7 +136,7 @@ echo <<< HTML
     <footer>
         <p>&copy; 2019 by Julian Segeth & Bican Gül. All Rights Reserved. Praktikum Entwicklung webbasierter Anwendungen.</p>
     </footer>
-\n</body>
+</body>
 </html>
 HTML;
     }

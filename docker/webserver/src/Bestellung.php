@@ -82,21 +82,24 @@ HTML;
      */
     protected function generatePageBody() {
 echo <<< HTML
-    <section class="menu">
-        <h2>Speisekarte</h2>\n
+    <div class="menu">
+        <h2>Speisekarte</h2>
+        <section class="pizzas">\n
 HTML;    
         foreach ($this->menu as $pizzaName => $pizza) {
             $pizzaPrice = number_format($pizza["pizzaPrice"], 2, ".", ",");
             $imagePath = $pizza["imagePath"];
 echo <<< HTML
-        <div>
-            <img onclick="addToCart('$pizzaName', $pizzaPrice)" src="$imagePath" alt="$pizzaName" width="250" height="250" />
-            <p data-price-{$pizzaName}="$pizzaPrice">Pizza $pizzaName: $pizzaPrice €</p>
-        </div>\n
+            <div>
+                <img onclick="addToCart('$pizzaName', $pizzaPrice)" src="$imagePath" alt="$pizzaName" width="250" height="250" />
+                <p data-price-{$pizzaName}="$pizzaPrice">Pizza $pizzaName: $pizzaPrice €</p>
+            </div>\n
 HTML;
         }
 echo <<< HTML
-    </section>
+        </section>
+    </div>
+    
     <section class="cart">
         <h2>Warenkorb</h2>
         <div>
@@ -125,7 +128,7 @@ echo <<< HTML
                 </div>
             </form>
         </div>
-    </section>
+    </section>\n
 HTML;
     }
     
