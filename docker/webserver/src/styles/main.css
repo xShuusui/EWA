@@ -102,7 +102,7 @@ nav {
 .driver {
     display: flex;
     flex-direction: row;
-    flex: wrap;
+    flex-wrap: wrap;
     justify-content: space-around;
 
     padding: 16px 0px;
@@ -111,7 +111,7 @@ nav {
 .order{
     display: flex;
     flex-direction: column;
-    flex: wrap;
+    flex-wrap: wrap;
     justify-content: space-around;
 
     padding: 16px 8px;
@@ -124,7 +124,7 @@ nav {
 .driver p {
     display: flex;
     flex-direction: column;
-    flex: wrap;
+    flex-wrap: wrap;
     justify-content: space-around;
 
     padding: 24px 8px;
@@ -138,6 +138,7 @@ nav {
 .options {
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
     justify-content: center;
     
     padding: 8px 8px;
@@ -152,6 +153,7 @@ nav {
 .button {
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
     justify-content: center;
 
     padding: 8px 8px;
