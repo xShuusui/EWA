@@ -137,14 +137,14 @@ HTML;
     protected function generatePageBody(){
 echo <<< HTML
     <h1>Fahrer</h1>
-    <section>
+    <section class="driver">
         <h2>Abholbereite Lieferungen:</h2>
         <div>\n
 HTML;
             // Iterate through orders[].
             foreach ($this->orders as $orderID => $orderedPizzas) {
 echo <<< HTML
-                <div>
+                <div class="order">
                     <p><strong>Bestellnummer: $orderID</strong></p>\n
 HTML;
                 // Iterate through orderedPizzas[] and get variables.
@@ -165,14 +165,13 @@ echo <<< HTML
 
                     <form action="./Fahrer.php" method="POST">
                         <input type="hidden" name="orderID" value="$orderID"/>
-                        <select name="status" size="2">
+                        <select name="status" class="options" size="1">
                             <option value="Unterwegs">Unterwegs</option>
                             <option value="Geliefert">Geliefert</option>
                         </select>
-                        <input type="Submit" value="Übernehmen"/>
+                        <input type="Submit" class="button" value="Übernehmen"/>
                     </form>
-                </div>
-                <p>--------------------------------------------------</p>\n
+                </div>\n
 HTML;
         }
 echo <<< HTML
