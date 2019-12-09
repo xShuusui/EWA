@@ -109,13 +109,13 @@ class Kunde extends Page {
     protected function generatePageBody() {
 echo <<< HTML
     <h1>Kunde</h1>
-    <section>
+    <section class="customer">
         <h2>Kundenbestellungen:</h2>\n
 HTML;
         foreach ($this->orders as $orderID => $orderedPizzas) {
 echo <<< HTML
-        <div>    
-            <p>Bestellnummer : $orderID</p>\n
+        <div class="orderCustomer">    
+            <p><strong>Bestellnummer : $orderID</strong></p>\n
 HTML;
             foreach ($orderedPizzas as $orderedPizzaID => $pizza) {
                 $pizzaName = $pizza['pizzaName'];
@@ -125,17 +125,16 @@ echo <<< HTML
 HTML;
             }
 echo <<< HTML
-            <p>--------------------------------------------------</p>
         </div>\n
 HTML;
         }
 echo <<< HTML
     </section>
-    <section>
+    <section class="newOrderButton">
         <div>
             <!--Input-Field of type submit to redirect the user to Bestellung.php-->
             <form action="http://localhost/Bestellung.php">
-                <input type="submit" value="Neue Bestellung">
+                <input type="submit" class="actualNewOrderButton" value="Neue Bestellung">
             </form>
         </div>
     </section>
