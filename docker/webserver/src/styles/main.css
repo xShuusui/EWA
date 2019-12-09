@@ -7,7 +7,6 @@
     font-family: sans-serif;
 }
 
-
 /* Navigation */
 nav {
   display: flex;
@@ -38,7 +37,6 @@ nav {
     width: 40%;
     height: 100%;
 }
-
 #navbar li {
     list-style: none;
 
@@ -49,11 +47,9 @@ nav {
     width: 100%;
     height: 100%;
 }
-
 #navbar li:hover, .active {
     background-color: rgb(164, 164, 164);;
 }
-
 #navbar li a {
     text-decoration: none;
     color: rgb(245, 245, 245);
@@ -61,42 +57,143 @@ nav {
     font-size: 18px;
 }
 
+@media screen and (max-width: 600px) {
 
-/* Sections */
-.menu {
-   float: left; 
-   width: 50%;
-   padding: 56px 0px;
-   text-align: center;
 
-   display: flex;
-   flex-direction: column;
 }
 
-.pizzas {
+/* Content Bestellung.php */
+.orderPage {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: space-between;
+    
+    background-color: grey;
 
-    padding: 15px 0px;
-
+    margin-top: 48px;
+    padding: 1%;
 }
 
-.pizzas div {
-    padding: 15px 0px;
+.menu {
+    display: flex;
+    flex-direction: row;
+    flex: 1.5;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+
+    margin-right: 0.5%;
+
+    padding-bottom: 1vh;
+    background-color: rgb(144, 144, 144);
+}
+.menu h2 {
+    width: 100%;
+    margin: 1vh;
+    text-align: center;
+}
+.menu div {
+    padding: 1vh;
+    margin: 1vh 0.5vh;
+
+    text-align: center;
+
+    border: 2px solid grey;
+    border-radius: 24px;
+}
+.menu div:hover {
+    transform: scale(1.05);
+    background-color: rgb(164, 164, 164);
 }
 
 .cart {
-    float: left;
-    width: 50%;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 
-    position: fixed;
-    top: 56px;
-    right: 0px;
+    margin-left: 0.5%;
+    background-color: rgb(144, 144, 144);;
+}
+.cart h2 {
+    width: 100%;
+    margin: 1vh;
+    text-align: center;
+}
+
+.cart form {
+    display: flex;
+    flex-direction: column;
+
+    padding: 1vw;
+    margin: 1vh;
+
+    border: 2px solid grey;
+    border-radius: 24px;
+}
+.cart form select {
+    align-self: center;
+    width: 65%;
+
+    text-align: center;
+    font-size: 20px;
+
+    margin: 1vh;
+}
+.cart form p {
+    align-self: center;
+    margin-top: 1vh;
+}
+.cart form div {
+    margin: 1vh;
+}
+
+.textInputs {
+    display: flex;
+    flex-direction: column;
+    
+    margin: 1vh;
+}
+.textInputs div {
+    display: flex;
+    flex-direction: row;
 
 }
+.textInputs div p {
+    flex: 0.5;
+    font-size: 20px;
+}
+.textInputs div input {
+    flex: 1.5;
+}
+
+.buttonInputs {
+    text-align: center;
+}
+.buttonInputs input {
+    font-size: 16px;
+    margin: 1vh 1.5vh;
+}
+
+
+/* Header and footer */
+footer {
+    clear: both;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+    height: 34px;
+    width: 100%;
+
+    background-color: rgb(144, 144, 144);
+}
+
+footer p {
+    color: rgb(245, 245, 245);
+    letter-spacing: 2px;
+}
+
 
 /*Fahrer.php*/
 .driver {
@@ -224,25 +321,6 @@ nav {
     text-align: center;
     font-size: 24px;
     display: inline-block;
-}
-
-/* Header and footer */
-footer {
-    clear: both;
-
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-
-    height: 34px;
-
-    background-color: rgb(144, 144, 144);
-}
-
-footer p {
-    color: rgb(245, 245, 245);
-    letter-spacing: 2px;
 }
 
 

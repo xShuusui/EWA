@@ -82,9 +82,10 @@ HTML;
      */
     protected function generatePageBody() {
 echo <<< HTML
-    <div class="menu">
-        <h2>Speisekarte</h2>
-        <section class="pizzas">\n
+    <div class="orderPage" >
+    
+        <section class="menu">
+            <h2>Speisekarte</h2>\n
 HTML;    
         foreach ($this->menu as $pizzaName => $pizza) {
             $pizzaPrice = number_format($pizza["pizzaPrice"], 2, ".", ",");
@@ -98,11 +99,9 @@ HTML;
         }
 echo <<< HTML
         </section>
-    </div>
-    
-    <section class="cart">
-        <h2>Warenkorb</h2>
-        <div>
+        
+        <section class="cart">
+            <h2>Warenkorb</h2>
             <form action="./Bestellung.php" method="POST">
 
                 <!-- All cart items. -->
@@ -113,22 +112,26 @@ echo <<< HTML
                 <p id="totalPrice"></p>
 
                 <!-- Text inputs. -->
-                <div>
-                    <p>Ihre Name:</p>
-                    <input type="text" name="fullName" required />
-                    <p>Ihre Adresse:</p>
-                    <input type="text" name="address" required />
+                <div class="textInputs">
+                    <div>
+                        <p>Ihr Name:</p>
+                        <input type="text" name="fullName" required />
+                    </div>
+                    <div>
+                        <p>Ihre Adresse:</p>
+                        <input type="text" name="address" required />
+                    </div>
                 </div>
 
                 <!-- Button inputs. -->
-                <div>
+                <div class="buttonInputs">
                     <input type="submit" onclick="selectAllOptions()" value="Bestellung aufgeben" />
                     <input type="button" onclick="deleteSelectedOptions()" value="Auswahl entfernen" />
                     <input type="button" onclick="deleteAllOptions()" value="Warenkorb leeren" />
                 </div>
             </form>
-        </div>
-    </section>\n
+        </section>
+    </div>\n
 HTML;
     }
     
