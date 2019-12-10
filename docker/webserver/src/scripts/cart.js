@@ -1,6 +1,7 @@
 let cart = [];
 let cartTotal = 0;
 let pizzaID = 0;
+let defaultCartSize = 4;
 
 /* Creates a pizza object. */
 function Pizza(pizzaName, pizzaPrice) {
@@ -63,6 +64,8 @@ function createCart() {
     // Create and append text node for <p> node.
     let textNode = document.createTextNode("Gesamter Preis: " + cartTotal.toFixed(2) + " €");
     priceNode.appendChild(textNode);
+
+    checkSelectSize();
 }
 
 /* Set by all <option> nodes the selected attribute. */
@@ -105,4 +108,27 @@ function deleteAllOptions() {
     pizzaID = 0;
 
     createCart();
+}
+
+/* Change the size from the <select> Node on the <option> Nodes. */
+function checkSelectSize() {
+    "use strict";
+
+    let selectNode = document.getElementById("cart");
+    let optionsLength = selectNode.options.length;
+    
+    // Check if size is smaller than length.
+    if (selectNode.size <= optionsLength) {
+        selectNode.size = optionsLength;
+    }
+
+    // Check if all options are deleted.
+    if (optionsLength === 0) {
+        selectNode.size = defaultCartSize;
+    }
+
+    // Check if one option are deleted.
+    if (optionsLength === selectNode.size - 1 && optionsLength + 1 !== defaultCartSize) {
+        selectNode.size = selectNode.size -1;
+    }
 }

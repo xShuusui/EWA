@@ -105,8 +105,11 @@ echo <<< HTML
             <form action="./Bestellung.php" method="POST">
 
                 <!-- All cart items. -->
-                <select id="cart" name="cart[]" size="5" multiple required>
-                </select>
+                <div class="selectInputs">
+                    <p class="cartParagraph">Ihre Auswahl:</p>
+                    <select id="cart" name="cart[]" size="4" multiple required>
+                    </select>
+                </div>
 
                 <!-- Total cart price. -->
                 <p id="totalPrice"></p>
@@ -114,11 +117,11 @@ echo <<< HTML
                 <!-- Text inputs. -->
                 <div class="textInputs">
                     <div>
-                        <p>Ihr Name:</p>
+                        <p class="cartParagraph">Ihr Name:</p>
                         <input type="text" name="fullName" required />
                     </div>
                     <div>
-                        <p>Ihre Adresse:</p>
+                        <p class="cartParagraph">Ihre Adresse:</p>
                         <input type="text" name="address" required />
                     </div>
                 </div>
