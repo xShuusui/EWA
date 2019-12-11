@@ -39,6 +39,7 @@ class Bestellung extends Page {
     protected function addAdditionalScript() {
 echo <<< HTML
     <script src="scripts/cart.js"></script>\n
+    <link rel="stylesheet" type="text/css" href="styles/order.css">
 HTML;
     }
 
@@ -106,13 +107,15 @@ echo <<< HTML
 
                 <!-- All cart items. -->
                 <div class="selectInputs">
-                    <p class="cartParagraph">Ihre Auswahl:</p>
-                    <select id="cart" name="cart[]" size="4" multiple required>
-                    </select>
+                    <div>
+                        <p class="cartParagraph">Ihre Auswahl:</p>
+                        <select id="cart" name="cart[]" size="4" multiple required>
+                        </select>
+                    </div>
+                    <div>
+                        <p id="totalPrice"></p>
+                    </div>  
                 </div>
-
-                <!-- Total cart price. -->
-                <p id="totalPrice"></p>
 
                 <!-- Text inputs. -->
                 <div class="textInputs">

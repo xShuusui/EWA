@@ -1,0 +1,132 @@
+/* Content from Bestellung.php */
+
+.orderPage {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    
+    color: rgb(15, 15, 15);
+    background-color: grey;
+
+    margin-top: 48px;
+    padding: 1%;
+}
+
+/* <----------BEGIN MENU----------> */
+.menu {
+    display: flex;
+    flex-direction: row;
+    flex: 1.5;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+
+    margin-right: 0.5%;
+
+    padding-bottom: 1vh;
+    background-color: rgb(144, 144, 144);
+}
+.menu h2 {
+    width: 100%;
+    margin: 1vh;
+    text-align: center;
+    font-size: 2em;
+}
+.menu div {
+    padding: 1vh;
+    margin: 1vh 0.5vh;
+
+    text-align: center;
+    font-size: 1.15em;
+
+    border: 2px solid grey;
+    border-radius: 24px;
+}
+.menu div:hover {
+    transform: scale(1.05);
+    background-color: rgb(164, 164, 164);
+}
+/* <----------END MENU----------> */
+
+/* <----------BEGIN CART----------> */
+.cart {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    margin-left: 0.5%;
+    background-color: rgb(144, 144, 144);
+}
+.cart h2 {
+    width: 100%;
+    margin: 1vh;
+    text-align: center;
+    font-size: 2em;
+}
+
+.cart form {
+    display: flex;
+    flex-direction: column;
+
+    padding: 1vw;
+    margin: 1vh;
+
+    border: 2px solid grey;
+    border-radius: 24px;
+}
+
+.cart form div {
+    margin: 1vh;
+}
+
+.cartParagraph {
+    flex: 0.5;
+    font-size: 1.25em;
+    align-self: center;
+}
+#totalPrice {
+    font-size: 1.25em;
+}
+
+.selectInputs {
+   display: flex;
+   flex-direction: column; 
+
+}
+.selectInputs div {
+    display: flex;
+    flex-direction: row;
+}
+.selectInputs select {
+    flex: 1.5;
+    text-align: center;
+    font-size: 1.3em;
+
+    border: 2px solid grey;
+    background-color: rgb(164, 164, 164);   
+    padding: 4px;
+}
+
+.textInputs {
+    display: flex;
+    flex-direction: column;
+}
+.textInputs div {
+    display: flex;
+    flex-direction: row;
+}
+.textInputs div input {
+    flex: 1.5;
+    border: 2px solid grey;
+    background-color: rgb(164, 164, 164);
+    font-size: 1.25em;   
+    padding: 4px;
+}
+
+.buttonInputs {
+    text-align: center;
+}
+.buttonInputs input {
+    font-size: 16px;
+    margin: 1vh 1.5vh;
+}
+/* <----------END CART----------> */

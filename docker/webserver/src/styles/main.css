@@ -1,5 +1,5 @@
+/* Global content */
 
-/* Global style */
 * {
     margin: 0;
     padding: 0;
@@ -7,7 +7,7 @@
     font-family: sans-serif;
 }
 
-/* Navigation */
+/* <----------BEGIN NAVIGATION----------> */
 nav {
   display: flex;
   flex-direction: row;
@@ -58,128 +58,10 @@ nav {
 }
 
 @media screen and (max-width: 600px) {
-
-
 }
+/* <----------END NAVIGATION----------> */
 
-/* Content Bestellung.php */
-.orderPage {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    
-    color: rgb(15, 15, 15);
-    background-color: grey;
-
-    margin-top: 48px;
-    padding: 1%;
-}
-
-.menu {
-    display: flex;
-    flex-direction: row;
-    flex: 1.5;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-
-    margin-right: 0.5%;
-
-    padding-bottom: 1vh;
-    background-color: rgb(144, 144, 144);
-}
-.menu h2 {
-    width: 100%;
-    margin: 1vh;
-    text-align: center;
-    font-size: 2em;
-}
-.menu div {
-    padding: 1vh;
-    margin: 1vh 0.5vh;
-
-    text-align: center;
-    font-size: 1.15em;
-
-    border: 2px solid grey;
-    border-radius: 24px;
-}
-.menu div:hover {
-    transform: scale(1.05);
-    background-color: rgb(164, 164, 164);
-}
-
-.cart {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-
-    margin-left: 0.5%;
-    background-color: rgb(144, 144, 144);;
-}
-.cart h2 {
-    width: 100%;
-    margin: 1vh;
-    text-align: center;
-    font-size: 2em;
-}
-
-.cart form {
-    display: flex;
-    flex-direction: column;
-
-    padding: 1vw;
-    margin: 1vh;
-
-    border: 2px solid grey;
-    border-radius: 24px;
-}
-
-.cart form div {
-    margin: 1vh;
-}
-
-.cartParagraph {
-    flex: 0.5;
-    font-size: 1.25em;
-}
-#totalPrice {
-    font-size: 1.25em;
-}
-
-.selectInputs {
-   display: flex;
-   flex-direction: row; 
-   align-items: center;
-}
-.selectInputs select {
-    flex: 1.5;
-
-    text-align: center;
-    font-size: 1.3em;
-}
-
-.textInputs {
-    display: flex;
-    flex-direction: column;
-}
-.textInputs div {
-    display: flex;
-    flex-direction: row;
-}
-.textInputs div input {
-    flex: 1.5;
-}
-
-.buttonInputs {
-    text-align: center;
-}
-.buttonInputs input {
-    font-size: 16px;
-    margin: 1vh 1.5vh;
-}
-
-
-/* Header and footer */
+/* <----------BEGIN FOOTER----------> */
 footer {
     clear: both;
 
@@ -193,12 +75,13 @@ footer {
 
     background-color: rgb(144, 144, 144);
 }
-
 footer p {
     color: rgb(245, 245, 245);
     letter-spacing: 2px;
 }
+/* <----------END FOOTER----------> */
 
+/*-------------------------------------------------------------------------------------------------------*/
 
 /*Fahrer.php*/
 .driver {
