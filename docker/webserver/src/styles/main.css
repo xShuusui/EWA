@@ -81,9 +81,7 @@ footer p {
 }
 /* <----------END FOOTER----------> */
 
-/*-------------------------------------------------------------------------------------------------------*/
-
-/*Fahrer.php*/
+/* <----------BEGIN FAHRER----------> */
 .driver {
     display: flex;
     flex-direction: row;
@@ -130,8 +128,6 @@ footer p {
     margin: 12px;
 
     background: khaki;
-    
-
 
 }
 
@@ -150,6 +146,9 @@ footer p {
     text-align: center;
     display: inline-block;
 }
+/* <----------END FAHRER----------> */
+
+/* <----------BEGIN KUNDE----------> */
 
 .customer {
     display: flex;
@@ -210,5 +209,6 @@ footer p {
     font-size: 24px;
     display: inline-block;
 }
+/* <----------END KUNDE----------> */
 
 
