@@ -40,6 +40,7 @@ class KundenStatus extends Page {
      * @return none
      */
     protected function getViewData() {
+        header("Content-type: application/json; charset=UTF-8");
 
         $this->checkDatabaseConnection();
 
@@ -52,46 +53,15 @@ class KundenStatus extends Page {
 
             if ($recordSet->num_rows > 0) {
 
-                $orderedPizzas = array();
-                $latestOrderID = null;
                 while ($row = $recordSet->fetch_assoc()) {
 
-                    // Save IDs into variables and mask special characters.
-                    $currentOrderID = htmlspecialchars($row["orderID"]);
-                    $orderedPizzaID = htmlspecialchars($row["orderedPizzaID"]);
+                    $pizza = array();
+                    $pizza["orderID"] = htmlspecialchars($row["orderID"]);
+                    $pizza["pizzaName"] = htmlspecialchars($row["pizzaName"]);
+                    $pizza["status"] = htmlspecialchars($row["status"]);
 
-                    // Check if orderIDs are the same.
-                    if ($latestOrderID === $currentOrderID || $latestOrderID === null) {
-
-                        // Create pizza[] and mask special characters.
-                        $pizza = array();
-                        $pizza["pizzaName"] = htmlspecialchars($row["pizzaName"]);
-                        $pizza["status"] = htmlspecialchars($row["status"]);
-
-                        // Push pizza[] in orderedPizzas[].
-                        $orderedPizzas[$orderedPizzaID] = $pizza;
-
-                        // Save currentOrderID.
-                        $latestOrderID = $currentOrderID;
-
-                    // If orderIDs different.
-                    } else {
-
-                        // Create pizza[] and mask special characters.
-                        $pizza = array();
-                        $pizza["pizzaName"] = htmlspecialchars($row["pizzaName"]);
-                        $pizza["status"] = htmlspecialchars($row["status"]);
-
-                        // Reset orderedPizzas[] and push pizza[] in orderedPizzas[].
-                        $orderedPizzas = array();
-                        $orderedPizzas[$orderedPizzaID] = $pizza;
-
-                        // Save currentOrderID.
-                        $latestOrderID = $currentOrderID;
-                    }
-
-                    // Push orderedPizzas[] in orders[].
-                    $this->orders[$latestOrderID] = $orderedPizzas;
+                    $this->orders[count($this->orders)] = $pizza;
+                
                 }
                 $recordSet->free();
                 //print_r($this->orders);
@@ -113,9 +83,11 @@ class KundenStatus extends Page {
      */
     protected function generateView() {
 
+        session_start();
         $this->getViewData();
 
         // Return data as json;
+        echo (json_encode($this->orders));
   
     }
     
