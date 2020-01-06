@@ -47,6 +47,15 @@ HTML;
     }
 
     /**
+     * This function can be overwritten to add additional CSS files or scripts.
+    */
+    protected function addAdditionalScript() {
+echo <<< HTML
+    <link rel="stylesheet" type="text/css" href="styles/driver.css">
+HTML;   
+    }
+
+    /**
      * Fetch all data that is necessary for later output.
      * Data is stored in an easily accessible way e.g. as associative array.
      *

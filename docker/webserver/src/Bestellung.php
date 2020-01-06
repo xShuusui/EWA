@@ -83,7 +83,7 @@ HTML;
      */
     protected function generatePageBody() {
 echo <<< HTML
-    <div class="orderPage" >
+    <div class="orderPage">
     
         <section class="menu">
             <h2>Speisekarte</h2>\n

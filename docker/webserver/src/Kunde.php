@@ -36,8 +36,8 @@ class Kunde extends Page {
     protected function addAdditionalScript() {
 echo <<< HTML
     <script src="scripts/ajax.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles/customer.css">
 HTML;   
-
     }
 
     /**
@@ -57,6 +57,7 @@ HTML;
      */
     protected function generatePageBody() {
 echo <<< HTML
+<div class="customerPage">
     <h1>Kunde</h1>
     <h2>Kundenbestellungen:</h2>
     <section class="customer" id="cust">
@@ -73,6 +74,7 @@ echo <<< HTML
             </form>
         </div>
     </section>
+</div>
 HTML;
     }
     
