@@ -82,6 +82,10 @@ footer p {
 /* <----------END FOOTER----------> */
 
 /* <----------BEGIN FAHRER----------> */
+.driverPage {
+    margin-top: 48px;
+}
+
 .driver {
     display: flex;
     flex-direction: row;

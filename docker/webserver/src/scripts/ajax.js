@@ -32,17 +32,23 @@ function process(responseText) {
         sectionNode.removeChild(sectionNode.firstChild);
     }
 
-    let h2Node = document.createElement("h2");
-    let textNode = document.createTextNode("Kundenbestellungen:");
-    h2Node.appendChild(textNode);
-    sectionNode.appendChild(h2Node);
 
     json.forEach(function(pizza) {  
 
         let divNode = document.createElement("div");
-        divNode.class = "orderCustomer";
-        divNode.setAttribute("p", "Bestellnummer: " + pizza.orderID);
-        divNode.setAttribute("p", pizza.pizzaName + " - " + pizza.status);
+        divNode.className = "orderCustomer";
+        //divNode.setAttribute("p", "Bestellnummer: " + pizza.orderID);
+        //divNode.setAttribute("p", pizza.pizzaName + " - " + pizza.status);
+
+        let pNode1 = document.createElement("p");
+        pNode1.textContent = "Bestellnummer: " + pizza.orderID;
+        divNode.appendChild(pNode1);
+
+        let pNode2 = document.createElement("p");
+        pNode2.textContent = pizza.pizzaName + " - " + pizza.status;
+        divNode.appendChild(pNode2);
+
+        console.log(divNode);
 
         sectionNode.appendChild(divNode);
     });

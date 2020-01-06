@@ -58,6 +58,7 @@ HTML;
     protected function generatePageBody() {
 echo <<< HTML
     <h1>Kunde</h1>
+    <h2>Kundenbestellungen:</h2>
     <section class="customer" id="cust">
     
     </section>\n

@@ -136,6 +136,7 @@ HTML;
      */
     protected function generatePageBody(){
 echo <<< HTML
+<div class="driverPage">
     <h1>Fahrer</h1>
     <section class="driver">
         <h2>Abholbereite Lieferungen:</h2>
@@ -177,6 +178,7 @@ HTML;
 echo <<< HTML
         </div>
     </section>
+</div>
 HTML;
     }
 
