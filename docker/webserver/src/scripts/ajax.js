@@ -7,8 +7,7 @@ function request() {
     //Global AJAX response handler
     xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            let json = JSON.parse(this.responseText);
-            process(json);
+            process(this.responseText);
         }
     }
 
@@ -21,8 +20,10 @@ window.onload=function() {
     this.setInterval(window.request, 2000);
 }
 
-function process(json) {
+function process(responseText) {
     "use strict";
+
+    let json = JSON.parse(responseText);
 
     let sectionNode = document.getElementById("cust");
 

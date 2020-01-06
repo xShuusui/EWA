@@ -85,8 +85,6 @@ HTML;
      * @return none
      */
     protected function generateView() {
-
-        session_start();
         
         $this->getViewData();
         $this->generatePageHeader("Kunde");
