@@ -1,22 +1,22 @@
-function request(){
+function request() {
     "use strict";
 
     //Global xmlhttp object
     let xmlhttp = new XMLHttpRequest();
 
     //Global AJAX response handler
-    xmlhttp.onreadystatechange = function (){
-        if(this.readyState == 4 && this.status == 200){
-            process(this.responseText);
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            let json = JSON.parse(this.responseText);
+            process(json);
         }
     }
 
     xmlhttp.open("GET", "KundenStatus.php", true);
     xmlhttp.send();
-
 }
 
-window.onload=function(){
+window.onload=function() {
     this.request();
     this.setInterval(window.request, 2000);
 }
@@ -24,14 +24,25 @@ window.onload=function(){
 function process(json) {
     "use strict";
 
-    let body = document.getElementsByClassName("customer");
+    let sectionNode = document.getElementById("cust");
 
-    let pizzen = JSON.parse(json);
+    // Remove all child nodes from <section>.
+    while (sectionNode.firstChild) {
+        sectionNode.removeChild(sectionNode.firstChild);
+    }
 
-    pizzen.forEach(function(pizza){  
+    let h2Node = document.createElement("h2");
+    let textNode = document.createTextNode("Kundenbestellungen:");
+    h2Node.appendChild(textNode);
+    sectionNode.appendChild(h2Node);
 
-        let row = document.createElement("div");
-        row.innerHTML = "Hat geklappt";
-        body[0].appendChild(row);
+    json.forEach(function(pizza) {  
+
+        let divNode = document.createElement("div");
+        divNode.class = "orderCustomer";
+        divNode.setAttribute("p", "Bestellnummer: " + pizza.orderID);
+        divNode.setAttribute("p", pizza.pizzaName + " - " + pizza.status);
+
+        sectionNode.appendChild(divNode);
     });
 }

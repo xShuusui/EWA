@@ -58,27 +58,12 @@ HTML;
     protected function generatePageBody() {
 echo <<< HTML
     <h1>Kunde</h1>
-    <section class="customer">
-        <h2>Kundenbestellungen:</h2>\n
+    <section class="customer" id="cust">
+    
+    </section>\n
 HTML;
-        foreach ($this->orders as $orderID => $orderedPizzas) {
+
 echo <<< HTML
-        <div class="orderCustomer">    
-            <p><strong>Bestellnummer : $orderID</strong></p>\n
-HTML;
-            foreach ($orderedPizzas as $orderedPizzaID => $pizza) {
-                $pizzaName = $pizza['pizzaName'];
-                $pizzaStatus = $pizza['status'];
-echo <<< HTML
-            <p>$pizzaName : $pizzaStatus</p>\n
-HTML;
-            }
-echo <<< HTML
-        </div>\n
-HTML;
-        }
-echo <<< HTML
-    </section>
     <section class="newOrderButton">
         <div>
             <!--Input-Field of type submit to redirect the user to Bestellung.php-->
