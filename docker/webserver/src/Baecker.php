@@ -39,7 +39,7 @@ class Baecker extends Page {
      */
     protected function addAdditionalMeta() {
 echo <<< HTML
-    <meta http-equiv="refresh" content="5" />\n
+    <!--<meta http-equiv="refresh" content="5" />\n-->
 HTML;
     }
 
@@ -128,17 +128,16 @@ HTML;
             foreach ($orderedPizzas as $orderedPizzaID => $pizza) {
                 $pizzaName = $pizza["pizzaName"];
                 $status = $pizza["status"];
+
 echo <<< HTML
             <div>
                 <p>Pizza: $pizzaName | Status: $status</p>
-                <form action="./Baecker.php" method="POST">
+                <form id="formID=$orderedPizzaID" action="./Baecker.php" method="POST">
                     <input type="hidden" name="orderedPizzaID" value="$orderedPizzaID" />
-                    <select name="status" size="3">
-                        <option value="Bestellt">Bestellt</option>
-                        <option value="Im Ofen">Im Ofen</option>
-                        <option value="Fertig">Fertig</option>
-                    </select>
-                    <input type="submit" value="Übernehmen"/>
+
+                    <input type="radio" name="status" value="Bestellt" onclick="document.forms['formID=$orderedPizzaID'].submit();"/> Bestellt
+                    <input type="radio" name="status" value="Im Ofen" onclick="document.forms['formID=$orderedPizzaID'].submit();"/> Im Ofen
+                    <input type="radio" name="status" value="Fertig" onclick="document.forms['formID=$orderedPizzaID'].submit();"/> Fertig
                 </form>
             </div>\n
 HTML;
