@@ -48,8 +48,6 @@ function process(responseText) {
         pNode2.textContent = pizza.pizzaName + " - " + pizza.status;
         divNode.appendChild(pNode2);
 
-        console.log(divNode);
-
         sectionNode.appendChild(divNode);
     });
 }

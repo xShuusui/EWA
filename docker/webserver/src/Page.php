@@ -111,17 +111,22 @@ echo <<< HTML
         <div class="logo">
             <h4>Pizzeria Void</h4>
         </div>
-        <ul id="navbar">
+        <ul class="navbar">
             <li><a href="http://localhost/Bestellung.php">Bestellung</a></li>
             <li><a href="http://localhost/Baecker.php">Bäcker</a></li>
             <li><a href="http://localhost/Fahrer.php">Fahrer</a></li>
             <li><a href="http://localhost/Kunde.php">Kunde</a></li>
         </ul>
+
+        <div class="burger">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
     </nav>
 
     <!-- Script for <nav>. -->
-    <script src="scripts/nav.js"></script>
-    \n
+    <script src="scripts/nav.js"></script>\n
 HTML;
     }
 

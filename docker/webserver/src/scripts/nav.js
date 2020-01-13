@@ -1,6 +1,6 @@
 
 // Get <ul> Node.
-let ulNode = document.getElementById("navbar");
+let ulNode = document.querySelector(".navbar")
 
 // Get <a> Nodes in <nav> Node.
 let aNodes = ulNode.getElementsByTagName("a");
@@ -14,3 +14,11 @@ for (let i=0; i < aNodes.length; i++) {
         aNodes[i].parentNode.className = "active";
     }
 }
+
+
+let navbar = document.querySelector(".navbar");
+let burger = document.querySelector(".burger");
+
+burger.addEventListener("click", function(){
+    navbar.classList.toggle("nav-active");
+});
