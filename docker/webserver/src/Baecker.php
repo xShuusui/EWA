@@ -33,6 +33,15 @@ class Baecker extends Page {
 
         parent::__destruct();
     }
+
+    /**
+     * Add additional CSS files and scripts to the head.
+    */
+    protected function addAdditionalScript() {
+echo <<< HTML
+    <link rel="stylesheet" type="text/css" href="styles/baker.css">\n
+HTML;
+            }
     
     /**
      * This function can be overwritten to add additional Meta Tags.
@@ -114,15 +123,15 @@ HTML;
      */
     protected function generatePageBody() {
 echo <<< HTML
-    <h1>Bäcker</h1>
-    <section>
+<div class="bakerPage">
+    <section class="bakerSection">
         <h2>Kundenbestellungen:</h2>\n
 HTML;
         // Iterate through orders[].
         foreach ($this->orders as $orderID => $orderedPizzas) {
 echo <<< HTML
-        <div>
-            <p>Bestellnummer: $orderID</p>\n
+        <div class="orders">
+            <h3>Bestellnummer: $orderID</h3>\n
 HTML;
             // Iterate through orderedPizzas[].
             foreach ($orderedPizzas as $orderedPizzaID => $pizza) {
@@ -130,25 +139,25 @@ HTML;
                 $status = $pizza["status"];
 
 echo <<< HTML
-            <div>
+            <div class="orderedPizzas">
                 <p>Pizza: $pizzaName | Status: $status</p>
                 <form id="formID-$orderedPizzaID" action="./Baecker.php" method="POST">
                     <input type="hidden" name="orderedPizzaID" value="$orderedPizzaID" />
 
-                    <input type="radio" name="status" value="Bestellt" onclick="document.forms['formID-$orderedPizzaID'].submit();"/> Bestellt
-                    <input type="radio" name="status" value="Im Ofen" onclick="document.forms['formID-$orderedPizzaID'].submit();"/> Im Ofen
-                    <input type="radio" name="status" value="Fertig" onclick="document.forms['formID-$orderedPizzaID'].submit();"/> Fertig
+                    <div><input type="radio" name="status" value="Bestellt" onclick="document.forms['formID-$orderedPizzaID'].submit();"/> <p>Bestellt</p></div>
+                    <div><input type="radio" name="status" value="Im Ofen" onclick="document.forms['formID-$orderedPizzaID'].submit();"/> <p>Im Ofen</p></div>
+                    <div><input type="radio" name="status" value="Fertig" onclick="document.forms['formID-$orderedPizzaID'].submit();"/> <p>Fertig</p></div>
                 </form>
             </div>\n
 HTML;
             }
 echo <<< HTML
         </div>
-        <p>--------------------------------------------------</p>\n
 HTML;
         }
 echo <<< HTML
     </section>
+</div>
 HTML;
     }
     

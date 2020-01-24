@@ -1,0 +1,128 @@
+/* Content from Baecker.php*/
+
+.bakerPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 100%;
+
+    padding: 0.5%;
+
+    background-color: grey;
+
+}
+
+.bakerSection {
+    background-color: rgb(144, 144, 144);
+
+
+    margin: 0.25%;
+    width: 60%;
+}
+
+.bakerSection h2 {
+    width: 100%;
+    margin: 1vh;
+    text-align: center;
+    font-size: 2em;
+}
+
+.orders {
+    border: solid 4px grey;
+    padding: 2%;
+    margin: 2%;
+
+    font-size: 1.1rem;
+
+}
+
+.orderedPizzas {
+    margin: 1%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    border: solid 2px grey;
+    border-radius: 24px;
+
+    padding: 3%;
+
+}
+
+
+.orderedPizzas form {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+    width: 50%;
+
+    margin-top: 0.25%;
+}
+
+.orderedPizzas form div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    
+}
+
+.orderedPizzas form div input {
+    margin-right: 10px;
+}
+
+@media screen and (max-width: 1240px) {
+
+    .orders {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .bakerSection {
+        width: 85%;
+    }
+
+    .orderedPizzas {
+        flex-direction: column;
+        align-items: center;
+
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 724px) {
+
+    .bakerSection {
+        width: 100%;
+    }
+    .orders {
+        font-size: 1.2rem;
+    }
+
+    .orders h3 {
+        font-size: 1.3rem;
+    }
+
+    .orderedPizzas {
+
+        width: 90%;
+        flex-direction: column;
+
+        align-items: center;
+    }
+
+    .orderedPizzas form {
+        flex-direction: column;
+    }
+
+    .orderedPizzas form div {
+        flex-direction: column;
+
+        margin-top: 5%;
+    }
+
+
+}
