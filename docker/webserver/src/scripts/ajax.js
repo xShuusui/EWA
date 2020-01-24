@@ -32,6 +32,10 @@ function process(responseText) {
         sectionNode.removeChild(sectionNode.firstChild);
     }
 
+    //Add h2-element bevor p-elements
+    let h2Node = document.createElement("h2");
+    h2Node.textContent = "Kundenbestellungen:";
+    sectionNode.appendChild(h2Node);
 
     json.forEach(function(pizza) {  
 

@@ -59,7 +59,6 @@ HTML;
 echo <<< HTML
 <div class="customerPage">
     <h1>Kunde</h1>
-    <h2>Kundenbestellungen:</h2>
     <section class="customer" id="cust">
     
     </section>\n

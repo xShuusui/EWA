@@ -147,8 +147,8 @@ HTML;
 echo <<< HTML
 <div class="driverPage">
     <h1>Fahrer</h1>
-    <h2>Abholbereite Lieferungen:</h2>
     <section class="driver">
+        <h2>Abholbereite Lieferungen:</h2>
         <div>\n
 HTML;
             // Iterate through orders[].
