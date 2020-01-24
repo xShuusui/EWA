@@ -7,6 +7,10 @@
     font-family: sans-serif;
 }
 
+html {
+    font-size: 16px;
+}
+
 /* <----------BEGIN NAVIGATION----------> */
 nav {
   display: flex;
@@ -52,7 +56,7 @@ nav {
     text-decoration: none;
     color: rgb(245, 245, 245);
     letter-spacing: 3px;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
 }
 
 .burger {
@@ -60,12 +64,19 @@ nav {
 }
 
 @media screen and (max-width: 1240px) {
+
+    html {
+        font-size: 14px;
+    }
     .navbar {
         width: 60%;
     }
 }
 
 @media screen and (max-width: 724px) {
+    html {
+        font-size: 12px;
+    }
 
     body {
         overflow-x: hidden;
@@ -76,7 +87,7 @@ nav {
         right: 0px;
         height: 95vh;
         top: 6vh;
-        background-color: red;
+        background-color: rgb(144, 144, 144);
 
         display: flex;
         flex-direction: column;
@@ -85,6 +96,15 @@ nav {
         transform: translateX(100%);
         transition: 0.5s ease-in;
     }
+
+    .navbar li {
+        border: 1px solid grey;
+    }
+
+    .navbar li a {
+        font-size: 1.6rem;
+        border-radius: 24px;
+    } 
 
     .burger {
         display: block;
@@ -121,6 +141,20 @@ footer {
 footer p {
     color: rgb(245, 245, 245);
     letter-spacing: 2px;    
-    font-size: 1.1vw;
+    font-size: 1.2rem;
+    text-align: center;
+
 }
+@media screen and (max-width: 724px) {
+
+    footer {
+        height: 8vh;
+    }
+
+    footer p {
+        font-size: 1.0rem;
+        text-align: center;
+    }
+}
+
 /* <----------END FOOTER----------> */

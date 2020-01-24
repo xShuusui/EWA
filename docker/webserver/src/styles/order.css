@@ -8,7 +8,7 @@
     color: rgb(15, 15, 15);
     background-color: grey;
 
-    padding: 1%;
+    padding: 0.5%;
 }
 
 @media screen and (max-width: 724px) {
@@ -25,7 +25,7 @@
     flex-wrap: wrap;
     justify-content: space-evenly;
 
-    margin-right: 0.5%;
+    margin: 0.25%;
 
     padding-bottom: 1vh;
     background-color: rgb(144, 144, 144);
@@ -41,7 +41,7 @@
     margin: 1vh 0.5vh;
 
     text-align: center;
-    font-size: 1.15em;
+    font-size: 1.1rem;
 
     border: 2px solid grey;
     border-radius: 24px;
@@ -57,9 +57,12 @@
 }
 
 @media screen and (max-width: 724px) {
+    .menu div {
+        font-size: 1.2rem;
+    }
     .img {
-        width: 175px;
-        height: 175px;
+        width: 190px;
+        height: 190px;
     }
 }
 /* <----------END MENU----------> */
@@ -70,14 +73,14 @@
     flex-direction: column;
     flex: 1;
 
-    margin-left: 0.5%;
+    margin: 0.25%;
     background-color: rgb(144, 144, 144);
 }
 .cart h2 {
     width: 100%;
     margin: 1vh;
     text-align: center;
-    font-size: 2em;
+    font-size: 2rem;
 }
 
 .cart form {
@@ -97,11 +100,11 @@
 
 .cartParagraph {
     flex: 0.5;
-    font-size: 1.25em;
+    font-size: 1.25rem;
     align-self: center;
 }
 #totalPrice {
-    font-size: 1.25em;
+    font-size: 1.25rem;
 }
 
 .selectInputs {
@@ -116,7 +119,7 @@
 .selectInputs select {
     flex: 1.5;
     text-align: center;
-    font-size: 1.3em;
+    font-size: 1.3rem;
 
     border: 2px solid grey;
     background-color: rgb(164, 164, 164);   
@@ -145,6 +148,20 @@
 .buttonInputs input {
     font-size: 16px;
     margin: 1vh 1.5vh;
+}
+
+@media screen and (max-width: 724px) {
+
+    .cart {
+        margin-top: 1.5%;
+    }
+    .selectInputs div {
+        flex-direction: column;
+    }
+
+    .textInputs div {
+        flex-direction: column;
+    }
 }
 /* <----------END CART----------> */
 
