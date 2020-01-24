@@ -6,16 +6,18 @@
 
 .customer {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
     justify-content: space-around;
+
+    text-align: center;
 
     padding: 16px 0px;
 }
 
 .orderCustomer {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-around;
 

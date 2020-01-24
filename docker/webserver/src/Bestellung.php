@@ -94,7 +94,7 @@ HTML;
 echo <<< HTML
             <div>
                 <img class="img" onclick="addToCart('$pizzaName', $pizzaPrice)" src="$imagePath" alt="$pizzaName" />
-                <p data-price-{$pizzaName}="$pizzaPrice">Pizza $pizzaName: $pizzaPrice €</p>
+                <p>Pizza $pizzaName: $pizzaPrice €</p>
             </div>\n
 HTML;
         }
