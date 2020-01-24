@@ -139,7 +139,7 @@ HTML;
 
 echo <<< HTML
     <footer>
-        <p>&copy; 2019 by Julian Segeth & Bican Gül. All Rights Reserved. Praktikum Entwicklung webbasierter Anwendungen.</p>
+        <p>&copy; 2019 by Julian Segeth &amp; Bican Gül. All Rights Reserved. Praktikum Entwicklung webbasierter Anwendungen.</p>
     </footer>
 </body>
 </html>

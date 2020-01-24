@@ -132,12 +132,12 @@ HTML;
 echo <<< HTML
             <div>
                 <p>Pizza: $pizzaName | Status: $status</p>
-                <form id="formID=$orderedPizzaID" action="./Baecker.php" method="POST">
+                <form id="formID-$orderedPizzaID" action="./Baecker.php" method="POST">
                     <input type="hidden" name="orderedPizzaID" value="$orderedPizzaID" />
 
-                    <input type="radio" name="status" value="Bestellt" onclick="document.forms['formID=$orderedPizzaID'].submit();"/> Bestellt
-                    <input type="radio" name="status" value="Im Ofen" onclick="document.forms['formID=$orderedPizzaID'].submit();"/> Im Ofen
-                    <input type="radio" name="status" value="Fertig" onclick="document.forms['formID=$orderedPizzaID'].submit();"/> Fertig
+                    <input type="radio" name="status" value="Bestellt" onclick="document.forms['formID-$orderedPizzaID'].submit();"/> Bestellt
+                    <input type="radio" name="status" value="Im Ofen" onclick="document.forms['formID-$orderedPizzaID'].submit();"/> Im Ofen
+                    <input type="radio" name="status" value="Fertig" onclick="document.forms['formID-$orderedPizzaID'].submit();"/> Fertig
                 </form>
             </div>\n
 HTML;

@@ -173,11 +173,11 @@ echo <<< HTML
                     <p>Bestellung: $tmpPizzaNames</p>
                     <p>Gesamtpreis: $tmpTotalPrice</p>
 
-                    <form id="formID=$orderID" action="./Fahrer.php" method="POST">
+                    <form id="formID-$orderID" action="./Fahrer.php" method="POST">
                         <input type="hidden" name="orderID" value="$orderID"/>
 
-                        <input type="radio" name="status" value="Unterwegs" onclick="document.forms['formID=$orderID'].submit();" /> Unterwegs
-                        <input type="radio" name="status" value="Geliefert" onclick="document.forms['formID=$orderID'].submit();" /> Geliefert
+                        <input type="radio" name="status" value="Unterwegs" onclick="document.forms['formID-$orderID'].submit();" /> Unterwegs
+                        <input type="radio" name="status" value="Geliefert" onclick="document.forms['formID-$orderID'].submit();" /> Geliefert
                     </form>
                 </div>\n
 HTML;

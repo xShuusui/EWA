@@ -31,8 +31,8 @@ INSERT INTO `menu` VALUES
 	('Margherita', './images/pizza-margherita.png', 3.99),
 	('Hawaii', './images/pizza-hawaii.png', 5.50),
 	('Peperoni', './images/pizza-peperoni.png', 4.50),
-	('Käse', './images/pizza-käse.png', 4.99),
+	('Käse', './images/pizza-kaese.png', 4.99),
 	('Diavolo', './images/pizza-diavolo.png', 3.99),
-	('Vier Käse', '/images/pizza-vierkäse.png', 4.29),
-	('Fleisch', '/images/pizza-fleisch.png', 5.99),
-	('Veggi', '/images/pizza-veggi.png', 2.99);
+	('Vier Käse', './images/pizza-vierkaese.png', 4.29),
+	('Fleisch', './images/pizza-fleisch.png', 5.99),
+	('Veggi', './images/pizza-veggi.png', 2.99);
