@@ -8,8 +8,13 @@
     color: rgb(15, 15, 15);
     background-color: grey;
 
-    margin-top: 48px;
     padding: 1%;
+}
+
+@media screen and (max-width: 724px) {
+    .orderPage {
+        flex-direction: column;
+    }
 }
 
 /* <----------BEGIN MENU----------> */
@@ -44,6 +49,18 @@
 .menu div:hover {
     transform: scale(1.05);
     background-color: rgb(164, 164, 164);
+}
+
+.img {
+    width: 250px;
+    height: 250px;
+}
+
+@media screen and (max-width: 724px) {
+    .img {
+        width: 175px;
+        height: 175px;
+    }
 }
 /* <----------END MENU----------> */
 
@@ -130,3 +147,4 @@
     margin: 1vh 1.5vh;
 }
 /* <----------END CART----------> */
+

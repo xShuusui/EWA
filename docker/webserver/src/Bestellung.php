@@ -93,7 +93,7 @@ HTML;
             $imagePath = $pizza["imagePath"];
 echo <<< HTML
             <div>
-                <img onclick="addToCart('$pizzaName', $pizzaPrice)" src="$imagePath" alt="$pizzaName" width="250" height="250" />
+                <img class="img" onclick="addToCart('$pizzaName', $pizzaPrice)" src="$imagePath" alt="$pizzaName" />
                 <p data-price-{$pizzaName}="$pizzaPrice">Pizza $pizzaName: $pizzaPrice €</p>
             </div>\n
 HTML;
