@@ -76,6 +76,7 @@ nav {
 @media screen and (max-width: 724px) {
     html {
         font-size: 12px;
+        overflow-x: hidden;
     }
 
     body {

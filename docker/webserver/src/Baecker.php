@@ -48,7 +48,7 @@ HTML;
      */
     protected function addAdditionalMeta() {
 echo <<< HTML
-    <!--<meta http-equiv="refresh" content="5" />\n-->
+    <meta http-equiv="refresh" content="5" />\n
 HTML;
     }
 
